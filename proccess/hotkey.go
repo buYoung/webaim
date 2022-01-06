@@ -5,9 +5,9 @@ import (
 )
 
 var (
-	Checkstate =false
+	Checkstate     = false
 	Checkautostate = false
-	CheckRedBlue = uint8(255)
+	CheckRedBlue   = uint8(255)
 )
 
 func Onaim() {
@@ -28,7 +28,7 @@ func RedColors() {
 		Colorarrays = Settings.Colors.NRTB
 	} else {
 		Colorarrays = Settings.Colors.NRTB
-		for _, color := range Settings.Colors.NRTH{
+		for _, color := range Settings.Colors.NRTH {
 			Colorarrays = append(Colorarrays, color)
 		}
 	}
@@ -43,7 +43,7 @@ func BlueColors() {
 		Colorarrays = Settings.Colors.NBTB
 	} else {
 		Colorarrays = Settings.Colors.NBTB
-		for _, color := range Settings.Colors.NBTH{
+		for _, color := range Settings.Colors.NBTH {
 			Colorarrays = append(Colorarrays, color)
 		}
 	}
@@ -53,23 +53,23 @@ func MultipleColors() {
 	CheckRedBlue = 3
 	if Settings.Defalut.Headonly == "1" {
 		Colorarrays = Settings.Colors.NBTH
-		for _, color := range Settings.Colors.NRTH{
+		for _, color := range Settings.Colors.NRTH {
 			Colorarrays = append(Colorarrays, color)
 		}
 	} else if Settings.Defalut.Bodyonly == "1" {
 		Colorarrays = Settings.Colors.NBTB
-		for _, color := range Settings.Colors.NRTB{
+		for _, color := range Settings.Colors.NRTB {
 			Colorarrays = append(Colorarrays, color)
 		}
 	} else {
 		Colorarrays = Settings.Colors.NRTB
-		for _, color := range Settings.Colors.NBTB{
+		for _, color := range Settings.Colors.NBTB {
 			Colorarrays = append(Colorarrays, color)
 		}
-		for _, color := range Settings.Colors.NRTH{
+		for _, color := range Settings.Colors.NRTH {
 			Colorarrays = append(Colorarrays, color)
 		}
-		for _, color := range Settings.Colors.NBTH{
+		for _, color := range Settings.Colors.NBTH {
 			Colorarrays = append(Colorarrays, color)
 		}
 	}
@@ -89,7 +89,7 @@ func Autooff() {
 }
 
 func Autofire() {
-	CheckifApress  = false
+	CheckifApress = false
 }
 
 func Bodyonly() {
@@ -101,24 +101,24 @@ func Bodyonly() {
 	Settings.Defalut.Headonly = "0"
 	switch CheckRedBlue {
 	case 1:
-		if Settings.Defalut.Bodyonly == "0"{
+		if Settings.Defalut.Bodyonly == "0" {
 			RedColors()
 			return
 		}
 		Colorarrays = Settings.Colors.NRTB
 	case 2:
-		if Settings.Defalut.Bodyonly == "0"{
+		if Settings.Defalut.Bodyonly == "0" {
 			BlueColors()
 			return
 		}
 		Colorarrays = Settings.Colors.NBTB
 	case 3:
-		if Settings.Defalut.Bodyonly == "0"{
+		if Settings.Defalut.Bodyonly == "0" {
 			MultipleColors()
 			return
 		}
 		Colorarrays = Settings.Colors.NBTB
-		for _, color := range Settings.Colors.NRTB{
+		for _, color := range Settings.Colors.NRTB {
 			Colorarrays = append(Colorarrays, color)
 		}
 	}
@@ -133,24 +133,24 @@ func Headonly() {
 	Settings.Defalut.Bodyonly = "0"
 	switch CheckRedBlue {
 	case 1:
-		if Settings.Defalut.Bodyonly == "0"{
+		if Settings.Defalut.Bodyonly == "0" {
 			RedColors()
 			return
 		}
 		Colorarrays = Settings.Colors.NRTH
 	case 2:
-		if Settings.Defalut.Bodyonly == "0"{
+		if Settings.Defalut.Bodyonly == "0" {
 			BlueColors()
 			return
 		}
 		Colorarrays = Settings.Colors.NBTH
 	case 3:
-		if Settings.Defalut.Bodyonly == "0"{
+		if Settings.Defalut.Bodyonly == "0" {
 			MultipleColors()
 			return
 		}
 		Colorarrays = Settings.Colors.NBTH
-		for _, color := range Settings.Colors.NRTH{
+		for _, color := range Settings.Colors.NRTH {
 			Colorarrays = append(Colorarrays, color)
 		}
 	}

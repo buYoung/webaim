@@ -18,27 +18,34 @@ type ColorArray struct {
 }
 
 var (
-	Colorlist []string
+	Colorlist   []string
 	Colorarrays []ColorArray
-    curcolor ColorArray
-	allcolor = 10
-	bodyhead = 5
-	findcount = 0
+	curcolor    ColorArray
+	allcolor    = 10
+	bodyhead    = 5
+	findcount   = 0
 )
-func Screencapture(x,y,width,height int) (int,int) {
+
+func Screencapture(x, y, width, height int) (int, int) {
 	//hwnd := win.GetDesktopWindow()
 
 	hdc := win.GetDC(0)
-	if hdc == 0 { fmt.Printf("Error code : 0002\n")
-		return -1,-1}
+	if hdc == 0 {
+		fmt.Printf("Error code : 0002\n")
+		return -1, -1
+	}
 	defer win.ReleaseDC(0, hdc)
 	memory_device := win.CreateCompatibleDC(hdc)
-	if memory_device == 0 { fmt.Printf("Error code : 0003\n")
-		return -1,-1}
+	if memory_device == 0 {
+		fmt.Printf("Error code : 0003\n")
+		return -1, -1
+	}
 	defer win.DeleteDC(memory_device)
-	bitmap := win.CreateCompatibleBitmap(hdc,int32(width), int32(height))
-	if bitmap == 0 { fmt.Printf("Error code : 0004\n")
-		return -1,-1}
+	bitmap := win.CreateCompatibleBitmap(hdc, int32(width), int32(height))
+	if bitmap == 0 {
+		fmt.Printf("Error code : 0004\n")
+		return -1, -1
+	}
 	defer win.DeleteObject(win.HGDIOBJ(bitmap))
 	var header win.BITMAPINFOHEADER
 	header.BiSize = uint32(unsafe.Sizeof(header))
@@ -48,7 +55,7 @@ func Screencapture(x,y,width,height int) (int,int) {
 	header.BiHeight = int32(-height)
 	header.BiCompression = win.BI_RGB
 	header.BiSizeImage = 0
-	bitmapdatasize := uintptr(((int64(width) * int64(header.BiBitCount) + 31) / 32) * 4 * int64(height))
+	bitmapdatasize := uintptr(((int64(width)*int64(header.BiBitCount) + 31) / 32) * 4 * int64(height))
 	hmem := win.GlobalAlloc(win.GMEM_MOVEABLE, bitmapdatasize)
 	defer win.GlobalFree(hmem)
 	memptr := win.GlobalLock(hmem)
@@ -56,16 +63,16 @@ func Screencapture(x,y,width,height int) (int,int) {
 	old := win.SelectObject(memory_device, win.HGDIOBJ(bitmap))
 	if old == 0 {
 		fmt.Printf("Error code : 0005\n")
-		return -1,-1
+		return -1, -1
 	}
 	defer win.SelectObject(memory_device, old)
-	if !win.BitBlt(memory_device,0,0, int32(width), int32(height), hdc, int32(x), int32(y), win.SRCCOPY){
+	if !win.BitBlt(memory_device, 0, 0, int32(width), int32(height), hdc, int32(x), int32(y), win.SRCCOPY) {
 		fmt.Printf("Error code : 0006\n")
-		return -1,-1
+		return -1, -1
 	}
 	if win.GetDIBits(hdc, bitmap, 0, uint32(height), (*uint8)(memptr), (*win.BITMAPINFO)(unsafe.Pointer(&header)), win.DIB_RGB_COLORS) == 0 {
 		fmt.Printf("Error code : 0007\n")
-		return -1,-1
+		return -1, -1
 	}
 	var findx []int
 	var findy []int
@@ -128,40 +135,40 @@ func Screencapture(x,y,width,height int) (int,int) {
 	//	}
 	//} else {
 
-		for y := 0; y < height; y++ {
+	for y := 0; y < height; y++ {
 
-			if finddone {
-				maxfindy = maxfindy + 1
-				finddone = false
-			}
-			if maxfindy == 2 {
+		if finddone {
+			maxfindy = maxfindy + 1
+			finddone = false
+		}
+		if maxfindy == 2 {
+			break
+		}
+		maxfindx = 0
+		for x := 0; x < width; x++ {
+			if maxfindx >= Settings.Defalut.ColorCount {
+				//findxcount = 2
+				finddone = true
+				src += uintptr((width - x) * 4)
 				break
 			}
-			maxfindx =  0
-			for x := 0; x < width; x++ {
-				if maxfindx >= Settings.Defalut.ColorCount {
-					//findxcount = 2
-					finddone = true
-					src += uintptr((width - x ) * 4)
+			curcolor = ColorArray{R: int(*(*uint8)(unsafe.Pointer(src + 2))), G: int(*(*uint8)(unsafe.Pointer(src + 1))), B: int(*(*uint8)(unsafe.Pointer(src)))}
+			for _, n := range Colorarrays {
+				//fmt.Printf("%v %v %d \n", curcolor, n, Settings.Defalut.ColorCount)
+				if newCompare(curcolor, n, Settings.Advance.Shadeint) {
+					findx = append(findx, x)
+					findy = append(findy, y)
+					maxfindx = maxfindx + 1
+					find = true
 					break
 				}
-				curcolor = ColorArray{R:int(*(*uint8)(unsafe.Pointer(src + 2))),G:int(*(*uint8)(unsafe.Pointer(src + 1))), B:int(*(*uint8)(unsafe.Pointer(src)))}
-				for _,n :=range Colorarrays{
-					//fmt.Printf("%v %v %d \n", curcolor, n, Settings.Defalut.ColorCount)
-					if newCompare(curcolor, n, Settings.Advance.Shadeint){
-							findx = append(findx, x)
-							findy = append(findy, y)
-						maxfindx = maxfindx + 1
-						find = true
-						break
-					}
-				}
-				src +=4
-
-				//elapsedTime := time.Since(startTime)
-				//fmt.Printf("실행시간: %s\n", elapsedTime)
 			}
+			src += 4
+
+			//elapsedTime := time.Since(startTime)
+			//fmt.Printf("실행시간: %s\n", elapsedTime)
 		}
+	}
 	//}
 	//else if ran >= 70 {
 	//	for y := 0; y < height; y++ {
@@ -209,22 +216,28 @@ func Screencapture(x,y,width,height int) (int,int) {
 
 		return average(findx), average(findy)
 	}
-	return -1,-1
+	return -1, -1
 
 }
 
-func Autoclick(x,y int) bool {
+func Autoclick(x, y int) bool {
 	//hwnd := win.GetDesktopWindow()
 	width := 10
 	height := 15
 	hdc := win.GetDC(0)
-	if hdc == 0 { fmt.Printf("Error code : 0002\n")}
+	if hdc == 0 {
+		fmt.Printf("Error code : 0002\n")
+	}
 	defer win.ReleaseDC(0, hdc)
 	memory_device := win.CreateCompatibleDC(hdc)
-	if memory_device == 0 { fmt.Printf("Error code : 0003\n")}
+	if memory_device == 0 {
+		fmt.Printf("Error code : 0003\n")
+	}
 	defer win.DeleteDC(memory_device)
-	bitmap := win.CreateCompatibleBitmap(hdc,int32(width), int32(height))
-	if bitmap == 0 { fmt.Printf("Error code : 0004\n")}
+	bitmap := win.CreateCompatibleBitmap(hdc, int32(width), int32(height))
+	if bitmap == 0 {
+		fmt.Printf("Error code : 0004\n")
+	}
 	defer win.DeleteObject(win.HGDIOBJ(bitmap))
 	var header win.BITMAPINFOHEADER
 	header.BiSize = uint32(unsafe.Sizeof(header))
@@ -234,7 +247,7 @@ func Autoclick(x,y int) bool {
 	header.BiHeight = int32(-height)
 	header.BiCompression = win.BI_RGB
 	header.BiSizeImage = 0
-	bitmapdatasize := uintptr(((int64(width) * int64(header.BiBitCount) + 31) / 32) * 4 * int64(height))
+	bitmapdatasize := uintptr(((int64(width)*int64(header.BiBitCount) + 31) / 32) * 4 * int64(height))
 	hmem := win.GlobalAlloc(win.GMEM_MOVEABLE, bitmapdatasize)
 	defer win.GlobalFree(hmem)
 	memptr := win.GlobalLock(hmem)
@@ -244,7 +257,7 @@ func Autoclick(x,y int) bool {
 		fmt.Printf("Error code : 0005\n")
 	}
 	defer win.SelectObject(memory_device, old)
-	if !win.BitBlt(memory_device,0,0, int32(width), int32(height), hdc, int32(x), int32(y), win.SRCCOPY){
+	if !win.BitBlt(memory_device, 0, 0, int32(width), int32(height), hdc, int32(x), int32(y), win.SRCCOPY) {
 		fmt.Printf("Error code : 0006\n")
 	}
 	if win.GetDIBits(hdc, bitmap, 0, uint32(height), (*uint8)(memptr), (*win.BITMAPINFO)(unsafe.Pointer(&header)), win.DIB_RGB_COLORS) == 0 {
@@ -253,55 +266,55 @@ func Autoclick(x,y int) bool {
 	src := uintptr(memptr)
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
-			curcolor = ColorArray{R:int(*(*uint8)(unsafe.Pointer(src + 2))),G:int(*(*uint8)(unsafe.Pointer(src + 1))), B:int(*(*uint8)(unsafe.Pointer(src)))}
-			for _,n :=range Colorarrays{
-				if newCompare(curcolor, n, Settings.Advance.Shadeint){
+			curcolor = ColorArray{R: int(*(*uint8)(unsafe.Pointer(src + 2))), G: int(*(*uint8)(unsafe.Pointer(src + 1))), B: int(*(*uint8)(unsafe.Pointer(src)))}
+			for _, n := range Colorarrays {
+				if newCompare(curcolor, n, Settings.Advance.Shadeint) {
 					return true
 				}
 			}
-			src +=4
+			src += 4
 		}
 	}
 	return false
 }
 
-func Compare(cur color.RGBA, dest string, shade int) bool{
-	splitz := strings.Split(dest,",")
-	r,_ := strconv.Atoi(splitz[0])
-	g,_ := strconv.Atoi(splitz[1])
-	b,_ := strconv.Atoi(splitz[2])
+func Compare(cur color.RGBA, dest string, shade int) bool {
+	splitz := strings.Split(dest, ",")
+	r, _ := strconv.Atoi(splitz[0])
+	g, _ := strconv.Atoi(splitz[1])
+	b, _ := strconv.Atoi(splitz[2])
 
-	return (intabs(int(cur.R) - r) <= shade && intabs(int(cur.G) - g) <= shade && intabs(int(cur.B) - b) <= shade)
+	return (intabs(int(cur.R)-r) <= shade && intabs(int(cur.G)-g) <= shade && intabs(int(cur.B)-b) <= shade)
 }
 
-func newCompare(cur ColorArray, dest ColorArray, shade int) bool{
-	return (uintabs(cur.R - dest.R) <= shade && uintabs(cur.G - dest.G) <= shade && uintabs(cur.B - dest.B) <= shade)
+func newCompare(cur ColorArray, dest ColorArray, shade int) bool {
+	return (uintabs(cur.R-dest.R) <= shade && uintabs(cur.G-dest.G) <= shade && uintabs(cur.B-dest.B) <= shade)
 }
-func intabs(x int) int{
+func intabs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
-func uintabs(x int) int{
+func uintabs(x int) int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
-func addcolorlist(clist []color.RGBA, col color.RGBA)  []color.RGBA{
+func addcolorlist(clist []color.RGBA, col color.RGBA) []color.RGBA {
 	clist = append(clist, col)
-	return  clist
+	return clist
 }
-func average(xs[]int)  int {
-	total:=0
-	for _,v:=range xs {
-		total +=  v
+func average(xs []int) int {
+	total := 0
+	for _, v := range xs {
+		total += v
 	}
 	if total == 0 {
 		return 0
 	}
-	return total/int(len(xs))
+	return total / int(len(xs))
 }
 
 func createimg(rect image.Rectangle) (img *image.RGBA, e error) {
@@ -310,7 +323,7 @@ func createimg(rect image.Rectangle) (img *image.RGBA, e error) {
 
 	defer func() {
 		err := recover()
-		if err == nil{
+		if err == nil {
 			e = nil
 		}
 	}()

@@ -11,30 +11,31 @@ import (
 )
 
 var (
-	mod 					= windows.NewLazyDLL("user32.dll")
-	procGetWindowText   	= mod.NewProc("GetWindowTextW")
-	procGetWindowTextLength = mod.NewProc("GetWindowTextLengthW")
-	DrawRect   	= mod.NewProc("FrameRect")
-	GetWindowInfo   	= mod.NewProc("GetWindowInfo")
-	Mouseevent   	= mod.NewProc("GetAsyncKeyState")
-	getdoubleclicktime = mod.NewProc("GetDoubleClickTime")
-	Isstop = 0
-	Settings = &Allsettings{}
-	adtimer time.Time = time.Now()
+	mod                               = windows.NewLazyDLL("user32.dll")
+	procGetWindowText                 = mod.NewProc("GetWindowTextW")
+	procGetWindowTextLength           = mod.NewProc("GetWindowTextLengthW")
+	DrawRect                          = mod.NewProc("FrameRect")
+	GetWindowInfo                     = mod.NewProc("GetWindowInfo")
+	Mouseevent                        = mod.NewProc("GetAsyncKeyState")
+	getdoubleclicktime                = mod.NewProc("GetDoubleClickTime")
+	Isstop                            = 0
+	Settings                          = &Allsettings{}
+	adtimer                 time.Time = time.Now()
 )
+
 type Userinfo struct {
 	Id string `json:"id"`
 }
 type Hotkeys struct {
-	On string `json:"on"`
-	Off string `json:"off"`
-	Red string `json:"red"`
-	Blue string `json:"blue"`
-	Solo string `json:"solo"`
-	Exit string `json:"exit"`
-	Autoon string `json:"autoon"`
-	Autooff string `json:"autooff"`
-	Work string `json:"work"`
+	On       string `json:"on"`
+	Off      string `json:"off"`
+	Red      string `json:"red"`
+	Blue     string `json:"blue"`
+	Solo     string `json:"solo"`
+	Exit     string `json:"exit"`
+	Autoon   string `json:"autoon"`
+	Autooff  string `json:"autooff"`
+	Work     string `json:"work"`
 	Autowork string `json:"autowork"`
 	Autofire string `json:"autofire"`
 	Bodyonly string `json:"bodyonly"`
@@ -43,124 +44,125 @@ type Hotkeys struct {
 type Rect struct {
 	Width string `json:"width"`
 	Heigh string `json:"heigh"`
-	View string `json:"view"`
+	View  string `json:"view"`
 }
 type Defalut struct {
-	Lock string `json:"lock"`
-	Lockstate uint8 `json:"lockstate"`
-	Xx int `json:"xx"`
-	Yy int `json:"yy"`
-	Maxrec string `json:"maxrec"`
-	Randomworkstatus bool `json:"randomworkstatus"`
-	Randomwork int `json:"randomwork"`
-	Delaystatus string `json:"delaystatus"`
-	Delay int `json:"delay"`
-	Autofirecount string  `json:"autofirecount"`
-	Autodelaystatus string `json:"autodelaystatus"`
-	Autodelay string `json:"autodelay"`
-	Onlyauto string `json:"onlyauto"`
-	X2 string `json:"x2"`
-	Bodyonly string `json:"bodyonly"`
-	Headonly string `json:"headonly"`
-	Othercolor string `json:"othercolor"`
-	ColorCount int `json:"color_count"`
-	Ghost int `json:"ghost"`
+	Lock             string `json:"lock"`
+	Lockstate        uint8  `json:"lockstate"`
+	Xx               int    `json:"xx"`
+	Yy               int    `json:"yy"`
+	Maxrec           string `json:"maxrec"`
+	Randomworkstatus bool   `json:"randomworkstatus"`
+	Randomwork       int    `json:"randomwork"`
+	Delaystatus      string `json:"delaystatus"`
+	Delay            int    `json:"delay"`
+	Autofirecount    string `json:"autofirecount"`
+	Autodelaystatus  string `json:"autodelaystatus"`
+	Autodelay        string `json:"autodelay"`
+	Onlyauto         string `json:"onlyauto"`
+	X2               string `json:"x2"`
+	Bodyonly         string `json:"bodyonly"`
+	Headonly         string `json:"headonly"`
+	Othercolor       string `json:"othercolor"`
+	ColorCount       int    `json:"color_count"`
+	Ghost            int    `json:"ghost"`
 }
 type Colors struct {
-	RedTeamBody []string `json:"red_team_body"`
-	RedTeamHead []string `json:"red_team_head"`
-	NRTB []ColorArray `json:"nrtb"`
-	NRTH []ColorArray `json:"nrth"`
-	BlueTeamBody []string `json:"blue_team_body"`
-	BlueTeamHead []string `json:"blue_team_head"`
-	NBTB []ColorArray `json:"nbtb"`
-	NBTH []ColorArray `json:"nbth"`
-	NOC []ColorArray `json:"noc"`
-
+	RedTeamBody  []string     `json:"red_team_body"`
+	RedTeamHead  []string     `json:"red_team_head"`
+	NRTB         []ColorArray `json:"nrtb"`
+	NRTH         []ColorArray `json:"nrth"`
+	BlueTeamBody []string     `json:"blue_team_body"`
+	BlueTeamHead []string     `json:"blue_team_head"`
+	NBTB         []ColorArray `json:"nbtb"`
+	NBTH         []ColorArray `json:"nbth"`
+	NOC          []ColorArray `json:"noc"`
 }
 type Accel struct {
-	Short int `json:"short"`
+	Short  int `json:"short"`
 	Middle int `json:"middle"`
-	Long int `json:"long"`
+	Long   int `json:"long"`
 }
 type Advance struct {
-	Minx int `json:"minx"`
-	Miny int `json:"miny"`
+	Minx     int    `json:"minx"`
+	Miny     int    `json:"miny"`
 	Minaccel string `json:"minaccel"`
-	Shade string `json:"shade"`
-	Shadeint int `json:"shadeint"`
-	Debug string `json:"debug"`
+	Shade    string `json:"shade"`
+	Shadeint int    `json:"shadeint"`
+	Debug    string `json:"debug"`
 }
 type Skinpath struct {
-	Spath string `json:"spath"`
+	Spath    string `json:"spath"`
 	Skinpath string `json:"skinpath"`
 }
 type Allsettings struct {
 	Userinfo Userinfo `json:"userinfo"`
-	Hotkeys Hotkeys `json:"hotkeys"`
-	Rect Rect `json:"rect"`
-	Defalut Defalut `json:"defalut"`
-	Colors Colors `json:"colors"`
-	Accel Accel `json:"accel"`
-	Advance Advance `json:"advance"`
+	Hotkeys  Hotkeys  `json:"hotkeys"`
+	Rect     Rect     `json:"rect"`
+	Defalut  Defalut  `json:"defalut"`
+	Colors   Colors   `json:"colors"`
+	Accel    Accel    `json:"accel"`
+	Advance  Advance  `json:"advance"`
 }
 
 type Procinfo struct {
 	HWND win.HWND
-	X int32
-	Y int32
-	W int32
-	H int32
-	Ax int32
-	Ay int32
+	X    int32
+	Y    int32
+	W    int32
+	H    int32
+	Ax   int32
+	Ay   int32
 	Rect win.RECT
 }
 type RECT struct {
-	Left int32
-	Top int32
-	Right int32
+	Left   int32
+	Top    int32
+	Right  int32
 	Bottom int32
 }
 
 type (
 	HANDLE uintptr
-	_HWND      HANDLE
+	_HWND  HANDLE
 )
-var(
+
+var (
 	CheckTabpress bool
-	Checkifpress bool
+	Checkifpress  bool
 	CheckifApress bool
-	Keypress = false
-	Checkkeys uint16
+	Keypress      = false
+	Checkkeys     uint16
 )
+
 func Doubclicktime() uint {
-	time,_,_ := getdoubleclicktime.Call()
+	time, _, _ := getdoubleclicktime.Call()
 	return uint(time)
 }
-func Gettabkey(ch chan int ,ch1 chan int){
+func Gettabkey(ch chan int, ch1 chan int) {
 	s := hook.Start()
 	defer hook.End()
 	status := false
 	for {
 		select {
-		case <- ch:
+		case <-ch:
 			status = true
 			CheckifApress = false
 			Checkifpress = false
 			Keypress = false
-		case <- ch1:
+		case <-ch1:
 			status = false
-			CheckifApress =true
+			CheckifApress = true
 			Checkifpress = true
 			Keypress = true
 		case i := <-s:
 
 			if i.Rawcode == 9 {
 				switch i.Kind {
-				case 3,4:
+				case 3, 4:
 					CheckTabpress = false
 				case 5:
-					CheckTabpress= true
+					CheckTabpress = true
 				}
 			} else if status {
 				if i.Button == 0 {
@@ -172,7 +174,7 @@ func Gettabkey(ch chan int ,ch1 chan int){
 				if (i.Kind == hook.MouseUp || i.Kind == hook.MouseDown) && i.Button == Checkkeys {
 					Keypress = false
 				}
-			}  else if i.Rawcode == 87 {
+			} else if i.Rawcode == 87 {
 				if Settings.Defalut.Ghost == 1 {
 					if time.Since(adtimer).Milliseconds() >= 100 {
 						var input_a win.KEYBD_INPUT
@@ -190,8 +192,8 @@ func Gettabkey(ch chan int ,ch1 chan int){
 				continue
 			}
 		default:
-			Checkifpress =true
-			CheckifApress =true
+			Checkifpress = true
+			CheckifApress = true
 		}
 		time.Sleep(time.Nanosecond)
 	}
@@ -204,7 +206,7 @@ func Getkeystates(ch chan int) {
 		defer hook.End()
 		for {
 			select {
-			case i:= <- s:
+			case i := <-s:
 				if i.Button == 0 {
 					continue
 				}
@@ -223,7 +225,7 @@ func Getkeystates(ch chan int) {
 			default:
 				continue
 			}
-			if Isstop == 0{
+			if Isstop == 0 {
 				hook.End()
 				Keypress = true
 				break
@@ -232,7 +234,6 @@ func Getkeystates(ch chan int) {
 
 	}()
 }
-
 
 func GetWindowTextLength(hwnd win.HWND) int {
 	ret, _, _ := procGetWindowTextLength.Call(
@@ -261,13 +262,13 @@ func getWindow(funcName string) uintptr {
 	return hwnd
 }
 
-func FindActiveProcess(GetProc chan Procinfo){
+func FindActiveProcess(GetProc chan Procinfo) {
 	var makez Procinfo
 	var rect win.RECT
-	var rwidth,rheight int
+	var rwidth, rheight int
 
 	makez.HWND = 0
-	for{
+	for {
 		hwnd := win.GetForegroundWindow()
 		if hwnd != 0 {
 			win.GetWindowRect(hwnd, &rect)
@@ -283,7 +284,6 @@ func FindActiveProcess(GetProc chan Procinfo){
 			makez.Ay = (rect.Top) + (rect.Bottom / 2) - 3
 			makez.W = int32(rwidth)
 			makez.H = int32(rheight)
-
 
 			select {
 			case GetProc <- makez:

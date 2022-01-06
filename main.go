@@ -61,17 +61,14 @@ var (
 	ch1            = make(chan int, 1)
 	getmousepress  = make(chan bool, 0)
 	gettab         = make(chan bool, 0)
-	autoclick = make(chan bool, 0)
+	autoclick      = make(chan bool, 0)
 	autoclickstate = false
 	Checkifpress   = false
 	CheckifApress  = false
 	err            error
 	ispress        = false
-	chromepath string
-
+	chromepath     string
 )
-
-
 
 func main() {
 	runtime.GOMAXPROCS(0)
@@ -106,7 +103,7 @@ func getuserdata() bool {
 	if !fileExists("setting.json") {
 		file, err := os.Create("setting.json")
 		if err != nil {
-			log.Println("오류발생",err)
+			log.Println("오류발생", err)
 			return false
 		}
 		firestStart()
@@ -132,91 +129,91 @@ func getuserdata() bool {
 	if getproc.Settings.Hotkeys.On != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.On, "|")
 		errh := Sethotkey("0", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Off != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Off, "|")
 		errh := Sethotkey("1", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Red != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Red, "|")
 		errh := Sethotkey("2", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Blue != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Blue, "|")
 		errh := Sethotkey("3", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Solo != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Solo, "|")
 		errh := Sethotkey("4", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Exit != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Exit, "|")
 		errh := Sethotkey("5", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Autoon != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Autoon, "|")
 		errh := Sethotkey("6", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Autooff != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Autooff, "|")
 		errh := Sethotkey("7", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Work != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Work, "|")
 		errh := Sethotkey("8", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Autowork != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Autowork, "|")
 		errh := Sethotkey("9", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Autofire != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Autofire, "|")
 		errh := Sethotkey("10", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Bodyonly != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Bodyonly, "|")
 		errh := Sethotkey("11", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
 	if getproc.Settings.Hotkeys.Headonly != "" {
 		splitdata := strings.Split(getproc.Settings.Hotkeys.Headonly, "|")
 		errh := Sethotkey("12", splitdata[0], splitdata[1])
-		if errh !=nil {
+		if errh != nil {
 			println(errh.Error())
 		}
 	}
@@ -341,9 +338,6 @@ func firestStart() {
 	getproc.Settings.Rect.Heigh = "40"
 }
 
-
-
-
 func serverInitialize() {
 	dir, err := filepath.Abs(filepath.Dir(os.Args[0]))
 	if err != nil {
@@ -358,7 +352,7 @@ func autoClickInitialize() {
 		for {
 			select {
 			case _getstatus = <-_GetProc:
-			case autoclickstate = <- autoclick:
+			case autoclickstate = <-autoclick:
 			default:
 			}
 			time.Sleep(time.Nanosecond)
@@ -368,7 +362,7 @@ func autoClickInitialize() {
 	}()
 }
 
-func mouseMove(xx,yy int32 ) {
+func mouseMove(xx, yy int32) {
 	var input win.MOUSE_INPUT
 	input.Type = win.INPUT_MOUSE
 	input.Mi = win.MOUSEINPUT{Dx: int32(xx), Dy: int32(yy), DwFlags: win.MOUSEEVENTF_MOVE, DwExtraInfo: uintptr(0)}
@@ -441,11 +435,11 @@ func findColorInScreen() {
 						xx = 0
 					default:
 						xx = xx
-						yy= yy
+						yy = yy
 					}
 
 					xx += getproc.Settings.Defalut.Xx
-					yy +=  getproc.Settings.Defalut.Yy
+					yy += getproc.Settings.Defalut.Yy
 
 					mouseMove(int32(xx), int32(yy))
 				}
@@ -467,7 +461,7 @@ func autoClick() {
 		var checksleepval = uint32(0)
 		var checkcount = 0
 		for {
-			if getproc.Settings.Defalut.Autodelaystatus == "1"  {
+			if getproc.Settings.Defalut.Autodelaystatus == "1" {
 				if getproc.Settings.Defalut.Autodelay != "0" {
 					checksleepval = 50
 				}
@@ -477,16 +471,16 @@ func autoClick() {
 				checkcount = ased
 			}
 			if getproc.Checkautostate {
-				if _getstatus.HWND != 0 && login == 1  && getproc.CheckTabpress {
+				if _getstatus.HWND != 0 && login == 1 && getproc.CheckTabpress {
 					if getproc.Autoclick(int(_getstatus.Ax), int(_getstatus.Ay)) {
 						var input win.MOUSE_INPUT
 						input.Type = win.INPUT_MOUSE
 
-						for i := 0; i<checkcount; i++ {
-							input.Mi = win.MOUSEINPUT{DwFlags: win.MOUSEEVENTF_LEFTDOWN , DwExtraInfo: uintptr(0),Time:checksleepval}
+						for i := 0; i < checkcount; i++ {
+							input.Mi = win.MOUSEINPUT{DwFlags: win.MOUSEEVENTF_LEFTDOWN, DwExtraInfo: uintptr(0), Time: checksleepval}
 							win.SendInput(1, unsafe.Pointer(&input), int32(unsafe.Sizeof(win.MOUSE_INPUT{})))
 						}
-						input.Mi = win.MOUSEINPUT{DwFlags:  win.MOUSEEVENTF_LEFTUP , DwExtraInfo: uintptr(0)}
+						input.Mi = win.MOUSEINPUT{DwFlags: win.MOUSEEVENTF_LEFTUP, DwExtraInfo: uintptr(0)}
 						win.SendInput(1, unsafe.Pointer(&input), int32(unsafe.Sizeof(win.MOUSE_INPUT{})))
 					}
 				}

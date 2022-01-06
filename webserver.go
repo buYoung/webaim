@@ -18,7 +18,6 @@ import (
 	"time"
 )
 
-
 func webServerStart(dir string) {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
@@ -107,7 +106,7 @@ func webServerStart(dir string) {
 			"body":             getproc.Settings.Defalut.Bodyonly,
 			"other":            getproc.Settings.Defalut.Othercolor,
 			"count":            getproc.Settings.Defalut.ColorCount,
-			"ghost": 			getproc.Settings.Defalut.Ghost,
+			"ghost":            getproc.Settings.Defalut.Ghost,
 		})
 	})
 	router.GET("/set2-1.html", func(c *gin.Context) {
@@ -212,12 +211,12 @@ func webServerStart(dir string) {
 			returnval = `{"error":0,"result": "고정방식 설정완료","detail" : "고정방식 ` + lock + ` 설정완료"}`
 		}
 		if x != "" {
-			zb,_ := strconv.Atoi(x)
+			zb, _ := strconv.Atoi(x)
 			getproc.Settings.Defalut.Xx = zb
 			returnval = `{"error":0,"result": "x축 위치 설정완료","detail" : "x축 위치 ` + x + ` 설정완료"}`
 		}
 		if y != "" {
-			zb,_ := strconv.Atoi(y)
+			zb, _ := strconv.Atoi(y)
 			getproc.Settings.Defalut.Yy = zb
 			returnval = `{"error":0,"result": "y축 위치 설정완료","detail" : "y축 위치 ` + y + ` 설정완료"}`
 		}
@@ -226,7 +225,7 @@ func webServerStart(dir string) {
 			returnval = `{"error":0,"result": "최대인식거리 설정완료","detail" : "최대인식거리 ` + maxrec + ` 설정완료"}`
 		}
 		if randomwork != "" {
-			a,_ := strconv.Atoi(randomwork)
+			a, _ := strconv.Atoi(randomwork)
 			getproc.Settings.Defalut.Randomwork = a
 			returnval = `{"error":0,"result": "랜덤작동 설정완료","detail" : "랜덤작동 ` + randomwork + `% 설정완료"}`
 		}
@@ -239,7 +238,7 @@ func webServerStart(dir string) {
 			returnval = `{"error":0,"result": "랜덤작동상태 설정완료","detail" : "랜덤작동상태 설정완료"}`
 		}
 		if delay != "" {
-			val,_ := strconv.Atoi(delay)
+			val, _ := strconv.Atoi(delay)
 			getproc.Settings.Defalut.Delay = val
 			returnval = `{"error":0,"result": "딜레이 설정완료","detail" : "딜레이 ` + delay + ` 설정완료"}`
 		}
@@ -280,12 +279,12 @@ func webServerStart(dir string) {
 			returnval = `{"error":0,"result": "기타색 설정완료","detail" :  "기타색 작동설정완료"}`
 		}
 		if colorcount != "" {
-			a,_ := strconv.Atoi(colorcount)
+			a, _ := strconv.Atoi(colorcount)
 			getproc.Settings.Defalut.ColorCount = a
 			returnval = `{"error":0,"result": ` + colorcount + `" 설정완료","detail" :  "색상찾기갯수 설정완료"}`
 		}
 		if ghost != "" {
-			a,_ := strconv.Atoi(ghost)
+			a, _ := strconv.Atoi(ghost)
 			getproc.Settings.Defalut.Ghost = a
 			returnval = `{"error":0,"result": ` + ghost + `" 설정완료","detail" :  "a/d키 누르기 설정완료"}`
 		}
@@ -302,7 +301,6 @@ func webServerStart(dir string) {
 		getproc.Settings.Colors.NBTB = nil
 		getproc.Settings.Colors.NBTH = nil
 		getproc.Settings.Colors.NOC = nil
-
 
 		err = json.Unmarshal([]byte(colorsplit[0]), &getproc.Settings.Colors.NRTB)
 		err = json.Unmarshal([]byte(colorsplit[1]), &getproc.Settings.Colors.NRTH)
@@ -381,7 +379,7 @@ func webServerStart(dir string) {
 	})
 
 	router.POST("/accel", func(c *gin.Context) {
-		timecheck:= time.Now()
+		timecheck := time.Now()
 
 		_short := c.PostForm("short")
 		_middle := c.PostForm("middle")
@@ -390,17 +388,17 @@ func webServerStart(dir string) {
 		returnval := ""
 		log.Println(time.Since(timecheck))
 		if _short != "" {
-			val,_:= strconv.Atoi(_short)
+			val, _ := strconv.Atoi(_short)
 			getproc.Settings.Accel.Short = val
 			returnval = `{"error":0,"result": "가속도 설정완료","detail" : "가까이있을때 ` + _calc + ` 설정완료"}`
 		}
 		if _middle != "" {
-			val,_:= strconv.Atoi(_middle)
+			val, _ := strconv.Atoi(_middle)
 			getproc.Settings.Accel.Middle = val
 			returnval = `{"error":0,"result": "가속도 설정완료","detail" : "중간일때 ` + _calc + ` 설정완료"}`
 		}
 		if _long != "" {
-			val,_:= strconv.Atoi(_long)
+			val, _ := strconv.Atoi(_long)
 			getproc.Settings.Accel.Long = val
 			returnval = `{"error":0,"result": "가속도 설정완료","detail" : "멀리있을때 ` + _calc + ` 설정완료"}`
 		}
@@ -417,12 +415,12 @@ func webServerStart(dir string) {
 		colordep := c.PostForm("colordep")
 		returnval := ""
 		if dontmovex != "" {
-			val,_:= strconv.Atoi(dontmovex)
+			val, _ := strconv.Atoi(dontmovex)
 			getproc.Settings.Advance.Minx = val
 			returnval = `{"error":0,"result": "고급설정 설정완료","detail" : "인식안하기 X축 ` + dontmovex + `픽셀 설정완료"}`
 		}
 		if dontmovey != "" {
-			val,_:= strconv.Atoi(dontmovex)
+			val, _ := strconv.Atoi(dontmovex)
 			getproc.Settings.Advance.Miny = val
 			returnval = `{"error":0,"result": "고급설정 설정완료","detail" : "인식안하기 y축 ` + dontmovey + `픽셀 설정완료"}`
 		}
@@ -441,7 +439,6 @@ func webServerStart(dir string) {
 		c.PureJSON(http.StatusOK, returnval)
 	})
 
-
 	ranport, _ := net.Listen("tcp", ":0")
 	_, port, _ := net.SplitHostPort(ranport.Addr().String())
 	println("현재 버전 : ", version)
@@ -449,7 +446,7 @@ func webServerStart(dir string) {
 
 	//browser.OpenURL("http://127.0.0.1:" + port)
 	go func() {
-		exec.Command(chromepath, fmt.Sprintf("-incognito http://127.0.0.1:%s",port)).Run()
+		exec.Command(chromepath, fmt.Sprintf("-incognito http://127.0.0.1:%s", port)).Run()
 	}()
 	http.Serve(ranport, router)
 	//_ = router.Run(":5000")

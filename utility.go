@@ -30,19 +30,18 @@ func dirExists(filename string) bool {
 	return info.IsDir()
 }
 
-
 func getChromePath() {
-	k,err := registry.OpenKey(registry.LOCAL_MACHINE,`SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe`,registry.ENUMERATE_SUB_KEYS | registry.QUERY_VALUE)
+	k, err := registry.OpenKey(registry.LOCAL_MACHINE, `SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe`, registry.ENUMERATE_SUB_KEYS|registry.QUERY_VALUE)
 	if err != nil {
 		exec.Command("rundll32", "url.dll,FileProtocolHandler", `https://www.google.co.kr/chrome/?brand=CHBD&gclid=CjwKCAjwk6P2BRAIEiwAfVJ0rBX_43JBD2UJq0yxVl7Gx6p4rPAxPqXVKOtXUV8vxaNaKhNtMzAbzxoCVV8QAvD_BwE&gclsrc=aw.ds`).Start()
 
 		println("크롬 브라우저를 설치해주시기바랍니다.")
-		time.Sleep(5* time.Second)
+		time.Sleep(5 * time.Second)
 		os.Exit(50)
 		return
 	}
 
-	chromepath,_, err = k.GetStringValue("")
+	chromepath, _, err = k.GetStringValue("")
 	k.Close()
 }
 func makepath(oldname, newname string) error {

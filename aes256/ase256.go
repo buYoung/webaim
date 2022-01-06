@@ -1,17 +1,17 @@
 package aes256
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"crypto/rand"
 	"crypto/md5"
+	"crypto/rand"
 	b64 "encoding/base64"
-	"bytes"
 	"io"
 )
 
 // Encrypts text with the passphrase
-func Encrypt(text string, passphrase string) (string) {
+func Encrypt(text string, passphrase string) string {
 	salt := make([]byte, 8)
 	if _, err := io.ReadFull(rand.Reader, salt); err != nil {
 		panic(err.Error())
@@ -33,7 +33,7 @@ func Encrypt(text string, passphrase string) (string) {
 }
 
 // Decrypts encrypted text with the passphrase
-func Decrypt(encrypted string, passphrase string) (string) {
+func Decrypt(encrypted string, passphrase string) string {
 	ct, _ := b64.StdEncoding.DecodeString(encrypted)
 	if len(ct) < 16 || string(ct[:8]) != "Salted__" {
 		return ""
