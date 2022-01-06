@@ -1,0 +1,45 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+    <h1 class="h3 mb-0 text-gray-800">고급설정</h1>
+</div>
+<div class="card o-hidden border-0 shadow-lg my-1 w-100 h-100">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+
+        <div class="p-5">
+            <p class="card-text">인식안하기 범위</p>
+            <p class="card-text">모니터의 크기가 1366*768 일경우 pixel은 가로 1366개 세로 768개 있는겁니다. 그걸 pixel이라고 표시합니다.</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">x축 </span>
+                </div>
+                <input id="dontmovexval" max-value="20" min-value="1" type="text" class="form-control" value="5">
+                <div class="input-group-append">
+                    <span class="input-group-text">1~20 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">y축 </span>
+                </div>
+                <input id="dontmoveyval" max-value="20" min-value="1" type="text" class="form-control" value="5">
+                <div class="input-group-append">
+                    <span class="input-group-text">1~20 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <p class="card-text" id="dontmovex">위의기능은 x축기준 ±0~5 만큼 인식을 안합니다.(디스플레이 기준 1 = 1pixel, 5= 5pixel)</p>
+            <p class="card-text" id="dontmovey">위의기능은 y축기준 ±0~5 만큼 인식을 안합니다.(디스플레이 기준 1 = 1pixel, 5= 5pixel)</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">색조</span>
+                </div>
+                <input id="colordep" max-value="100" min-value="1" type="text" class="form-control" value="20">
+                <div class="input-group-append">
+                    <span class="input-group-text">1~100 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <p class="card-text">색의 범위를 선택합니다. 예) 입력값 100 이고 red색상이 100인경우 0~200까지의 red색상 인식가능</p>
+            <p class="card-text">RGB로 볼경우 예) 입력값 20 이고 rgb값 155,20,20 일경우 175,40,40(최대) 135,0,0(최소) 인식가능</p>
+
+        </div>
+    </div>
+</div>

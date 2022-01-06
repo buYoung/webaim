@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Liv Make Web Application</title>
+
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" data-include="nav">
+
+
+        </ul>
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div class="container-fluid">
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+                    </div>
+                    <div class="row" login-form="login">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+
+    <script>
+        var login = "{{.login}}";
+        var saved = "";
+        $(function() {
+            var includes = $('[data-include]');
+            jQuery.each(includes, function() {
+                var file = '_inc/' + $(this).data('include') + '.html';
+                $(this).load(file);
+            });
+            if (login == "0") {
+                $(".row[login-form]").load("_inc/login.html");
+
+                setTimeout(() => {
+                    var savedinfo = "{{.saveinfo}}"
+                    try {
+                        savedinfo = atob(savedinfo).split("|");
+
+                        $("#userid").val(savedinfo[0]);
+                        $("#userpw").val(savedinfo[1]);
+                    } catch {
+
+                    }
+                    $("#savelogin").click(function() {
+                        if (this.checked) {
+                            saved = "true";
+                        } else {
+                            saved = "false";
+                        }
+                    });
+                    $("#login").click(function() {
+                        var combin = btoa($("#userid").val()) + "|" + btoa($("#userpw").val());
+                        $.post("/login", {
+                            "encrypte": btoa(combin),
+                            "save": saved
+                        }, function(data) {
+                            if (data == "loginFail") {
+                                alert("로그인 실패");
+                            } else if (data == "loginFaildate") {
+                                alert("기간이 없습니다");
+                            } else {
+                                location.reload(true);
+                            }
+                        }, "json");
+                    })
+                }, 200);
+            } else {
+                $(".row[login-form]").load("_inc/info.html");
+
+                setTimeout(() => {
+                    var weapondate = parseInt("{{.weapon}}");
+                    var chracterdate = parseInt("{{.chracter}}");
+                    $("#logininfo").text("{{.id}}님 환영합니다!")
+                    if (weapondate > 0) {
+                        $("#weapon").text("남은 무기스킨 기간 : " + weapondate + "일");
+                    } else if (weapondate == 0) {
+                        $("#weapon").text("무기스킨 오늘 저녁까지 사용가능");
+                    } else {
+                        $("#weapon").text("무기스킨 기간이 없습니다.");
+                    }
+                    if (chracterdate > 0) {
+                        $("#chracter").text("남은 캐릭터스킨 기간 : " + chracterdate + "일");
+                    } else if (chracterdate == 0) {
+                        $("#chracter").text("캐릭터스킨 오늘 23시 59분 59초까지 사용가능");
+                    } else {
+                        $("#chracter").text("캐릭터스킨 기간이 없습니다.");
+                    }
+                }, 50);
+            }
+            setTimeout(() => {
+                var removeactive = $(".nav-item.active");
+                removeactive.removeClass("active");
+                var setnavactive = $("div>ul>li.nav-item:eq(0)")
+                setnavactive.addClass("active");
+
+                $("#userid").keypress(function(a) {
+                    if (a.keyCode == 13) {
+                        $("#userpw").focus();
+                    }
+                })
+                $("#userpw").keypress(function(a) {
+                    if (a.keyCode == 13) {
+                        $("#login").click();
+                    }
+                })
+            }, 50);
+        });
+    </script>
+</body>
+
+</html>

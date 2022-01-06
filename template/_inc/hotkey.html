@@ -1,0 +1,142 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+    <h1 class="h3 mb-0 text-gray-800">단축키 설정</h1>
+</div>
+<div class="card o-hidden border-0 shadow-lg my-1 w-100 h-100">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+
+        <div class="p-5">
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">예제 control + F1(컨트롤키 + F1)</span>
+                </div>
+                <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="ctrl/f1">
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">예제 Alt + F1(알트 + F1)</span>
+                </div>
+                <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="alt/f1">
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">예제 Shift + F1(쉬프트 + F1)</span>
+                </div>
+                <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="shift/f1">
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">예제 f1</span>
+                </div>
+                <input type="text" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="f1">
+            </div>
+            <p class="card-text">위의 4개의 예시를 이용하여 자기가 원하는 핫키를 지정해보세요. 엔터를 꼭 눌러야 저장이됩니다.</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">On</span>
+                </div>
+                <input id="onhotkey" index="0" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="onactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">색상 찾기 시작</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">Off</span>
+                </div>
+                <input id="offhotkey" index="1" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="offactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">색상 찾기 중지</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">적 Red팀</span>
+                </div>
+                <input id="redhotkey" index="2" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="redactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">적이 red팀일경우</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">적 Blue팀</span>
+                </div>
+                <input id="bluehotkey" index="3" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="blueactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">적이 blue팀일경우</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">모든색상</span>
+                </div>
+                <input id="solohotkey" index="4" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="soloactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">인식색상목록의 모든색상인식</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">강제종료</span>
+                </div>
+                <input id="closehotkey" index="5" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="exitactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">프로그램 강제종료</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">오토샷 On</span>
+                </div>
+                <input id="autoonhotkey" index="6" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="autoonactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">색이 범위안에 감지되면 자동으로 발사키를 눌러줍니다</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">오토샷 Off</span>
+                </div>
+                <input id="autooffhotkey" index="7" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="autooffactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">오토샷 끄기</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">작동방식</span>
+                </div>
+                <input id="workmodehotkey" index="8" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="workactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">색상인식시 자동클릭</span>
+                </div>
+                <input id="autoworkmodehotkey" index="9" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="autoworkactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">색상인식시 자동클릭 발사키</span>
+                </div>
+                <input id="autofirehotkey" index="10" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="autofireactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">몸전용</span>
+                </div>
+                <input id="bodyhotkey" index="11" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="bodyactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">머리전용</span>
+                </div>
+                <input id="headhotkey" index="12" type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                <button id="headactivity" type="button" value="0" class="btn btn-secondary activetybuttons">비활성화중</button>
+            </div>
+            <p class="card-text">색상감지후 오토샷이 on인경우 발사키를 지정합니다.</p>
+
+            <p class="card-text">해당되는 키를 누를경우 색상찾기를 시작합니다 (ON이 되어있어야함)</p>
+            <p class="card-text">작동방식 // 오토샷작동방식은 마우스클릭 작동만 지원 오토샷발사키는 키보드 전체 + 마우스클릭 지원</p>
+            <p class="card-text">그냥 마우스클릭 : 왼쪽클릭시 작동 // CTRL + 왼쪽마우스 : 마우스 휠 클릭 작동</p>
+            <p class="card-text">Shift + 왼쪽마우스 : 마우스 우클릭 작동</p>
+        </div>
+    </div>
+</div>

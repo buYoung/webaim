@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Liv Make Web Application</title>
+
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" data-include="nav">
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid" data-include="hotkey">
+
+                    <!-- Page Heading -->
+
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        function lockedit() {
+            //<button id="activebutton1" type="button" value="0" class="btn btn-secondary">비활성화중</button>
+            $(document.activeElement).attr("readonly", true);
+            $(document.activeElement).parent().children("button").removeClass("btn-secondary");
+            $(document.activeElement).parent().children("button").addClass("btn-primary");
+            $(document.activeElement).parent().children("button").text("활성화됨 클릭시핫키삭제");
+
+        }
+
+        function unlockedit() {
+            //<button id="activebutton1" type="button" value="0" class="btn btn-secondary">비활성화중</button>
+            if ($(document.activeElement).attr("readonly")) {
+                $(document.activeElement).attr("readonly", false);
+                $(document.activeElement).parent().children("button").addClass("btn-secondary");
+                $(document.activeElement).parent().children("button").removeClass("btn-primary");
+                $(document.activeElement).parent().children("button").text("비활성화중");
+                $.post("/unhotkey", {
+                    "index": $(document.activeElement).attr("index"),
+                }, function(data) {
+                    alert("핫키 해제완료");
+
+                }, "json");
+            }
+
+        }
+        $(function() {
+            window.addEventListener("keydown", function(e) {
+                if (e.key == "Enter") {
+
+                    $.post("/hotkey", {
+                        "index": $(document.activeElement).attr("index"),
+                        "keycode": $(document.activeElement).attr("keycode"),
+                        "key": $(document.activeElement).val()
+
+                    }, function(data) {
+                        var reresult = JSON.parse(data.replace("\\", ""));
+                        if (reresult["error"] == "1") {
+                            alert(reresult["detail"]); //error hotkey set
+                        } else if (reresult["error"] == "2") {
+                            alert("로그인후 이용해주세요.")
+                            location.reload(true)
+                        } else {
+                            //btn-secondary
+                            lockedit();
+                            alert(reresult["result"] + " " + reresult["detail"]);
+                        }
+
+                    }, "json");
+
+                    return;
+                }
+                if ($(document.activeElement).hasClass("form-control") && $(document.activeElement).attr("readonly") != "readonly" &&
+                    $(document.activeElement).attr("id") != "workmodehotkey" && $(document.activeElement).attr("id") != "autoworkmodehotkey") {
+                    if (e.ctrlKey) {
+                        if (e.keyCode == 17) {
+                            $(document.activeElement).val("ctrl + ");
+                        } else {
+                            $(document.activeElement).val("ctrl + " + e.key);
+                            $(document.activeElement).attr("keycode", "2/" + e.keyCode);
+                        }
+                    } else if (e.shiftKey) {
+                        if (e.keyCode == 16) {
+                            $(document.activeElement).val("shift + ");
+                        } else {
+                            $(document.activeElement).val("shift + " + e.key);
+                            $(document.activeElement).attr("keycode", "4/" + e.keyCode);
+                        }
+                    } else if (e.altKey) {
+                        if (e.keyCode == 18) {
+                            $(document.activeElement).val("alt + ");
+                        } else {
+                            $(document.activeElement).val("alt + " + e.key);
+                            $(document.activeElement).attr("keycode", "1/" + e.keyCode);
+                        }
+
+                    } else {
+                        $(document.activeElement).val(e.key);
+                        $(document.activeElement).attr("keycode", e.keyCode);
+                    }
+
+
+                }
+                e.preventDefault();
+            })
+            var includes = $('[data-include]');
+            jQuery.each(includes, function() {
+                var file = '_inc/' + $(this).data('include') + '.html';
+                $(this).load(file);
+            });
+            setTimeout(() => {
+                var removeactive = $(".nav-item.active");
+                removeactive.removeClass("active");
+                var setnavactive = $("div>ul>li.nav-item:eq(1)")
+                setnavactive.addClass("active");
+
+            }, 300);
+
+            alert("핫키 지정할경우 꼭 마지막에 엔터를 눌러주세요.");
+            setTimeout(() => {
+                $(".activetybuttons*").click(function() {
+                    if ($(this).hasClass("btn-primary")) {
+                        $(this).parent().children("input").focus();
+                        unlockedit();
+                    }
+                });
+                var on = "{{.on}}";
+                var off = "{{.off}}";
+                var red = "{{.red}}";
+                var blue = "{{.blue}}";
+                var solo = "{{.solo}}";
+                var exit = "{{.exit}}";
+                var autoon = "{{.autoon}}";
+                var autooff = "{{.autooff}}";
+                var work = "{{.work}}";
+                var autowork = "{{.autowork}}";
+                var autofire = "{{.autofire}}";
+                var bodyonly = "{{.body}}";
+                var headonly = "{{.head}}";
+
+                if ($("input[index=0]").val(on.split("|")[1]).val().length > 0) {
+                    $("input[index=0]").focus();
+                    lockedit();
+                };
+                if ($("input[index=1]").val(off.split("|")[1]).val().length > 0) {
+                    $("input[index=1]").focus();
+                    lockedit();
+                };
+                if ($("input[index=2]").val(red.split("|")[1]).val().length > 0) {
+                    $("input[index=2]").focus();
+                    lockedit();
+                };
+                if ($("input[index=3]").val(blue.split("|")[1]).val().length > 0) {
+                    $("input[index=3]").focus();
+                    lockedit();
+                };
+                if ($("input[index=4]").val(solo.split("|")[1]).val().length > 0) {
+                    $("input[index=4]").focus();
+                    lockedit();
+                };
+                if ($("input[index=5]").val(exit.split("|")[1]).val().length > 0) {
+                    $("input[index=5]").focus();
+                    lockedit();
+                };
+                if ($("input[index=6]").val(autoon.split("|")[1]).val().length > 0) {
+                    $("input[index=6]").focus();
+                    lockedit();
+                };
+                if ($("input[index=7]").val(autooff.split("|")[1]).val().length > 0) {
+                    $("input[index=7]").focus();
+                    lockedit();
+                };
+                if ($("input[index=8]").val(work.split("|")[1]).val().length > 0) {
+                    $("input[index=8]").focus();
+                    lockedit();
+                };
+                if ($("input[index=9]").val(autowork.split("|")[1]).val().length > 0) {
+                    $("input[index=9]").focus();
+                    lockedit();
+                };
+                if ($("input[index=10]").val(autofire.split("|")[1]).val().length > 0) {
+                    $("input[index=10]").focus();
+                    lockedit();
+                };
+                if ($("input[index=11]").val(bodyonly.split("|")[1]).val().length > 0) {
+                    $("input[index=11]").focus();
+                    lockedit();
+                };
+                if ($("input[index=12]").val(headonly.split("|")[1]).val().length > 0) {
+                    $("input[index=12]").focus();
+                    lockedit();
+                };
+                $("#workmodehotkey").click(function(e) {
+                    if (e.ctrlKey) {
+                        $(document.activeElement).val("마우스휠클릭");
+                        $(document.activeElement).attr("keycode", "3/wheel");
+                    } else if (e.shiftKey) {
+                        $(document.activeElement).val("마우스오른쪽클릭");
+                        $(document.activeElement).attr("keycode", "3/right");
+                    } else {
+                        $(document.activeElement).val("마우스왼쪽클릭");
+                        $(document.activeElement).attr("keycode", "3/left");
+                    }
+                });
+                $("#autoworkmodehotkey").click(function(e) {
+                    if (e.ctrlKey) {
+                        $(document.activeElement).val("마우스휠클릭");
+                        $(document.activeElement).attr("keycode", "3/wheel");
+                    } else if (e.shiftKey) {
+                        $(document.activeElement).val("마우스오른쪽클릭");
+                        $(document.activeElement).attr("keycode", "3/right");
+                    } else {
+                        $(document.activeElement).val("마우스왼쪽클릭");
+                        $(document.activeElement).attr("keycode", "3/left");
+                    }
+                });
+                $("#autofirehotkey").click(function(e) {
+                    if (e.ctrlKey) {
+                        $(document.activeElement).val("마우스휠클릭");
+                        $(document.activeElement).attr("keycode", "3/wheel");
+                    } else if (e.shiftKey) {
+                        $(document.activeElement).val("마우스오른쪽클릭");
+                        $(document.activeElement).attr("keycode", "3/right");
+                    } else {
+                        $(document.activeElement).val("마우스왼쪽클릭");
+                        $(document.activeElement).attr("keycode", "3/left");
+                    }
+                });
+            }, 300);
+        });
+    </script>
+
+</body>
+
+</html>

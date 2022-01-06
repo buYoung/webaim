@@ -1,0 +1,307 @@
+<script id="scripsze">
+    if ("{{.login}}" != "1") {
+        alert("로그인후 사용가능");
+        location.href = "/";
+    }
+    document.getElementById("scripsze").remove();
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Liv Make Web Application</title>
+
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" data-include="nav">
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid" data-include="defaultsetting">
+
+                    <!-- Page Heading -->
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        var checkactivety = true;
+
+        function req(url, data) {
+            $.post(url, data, function(data) {
+
+                var reresult = JSON.parse(data.replace("\\", ""));
+                if (reresult["error"] == "1") {
+                    alert(reresult["detail"]); //error hotkey set
+                } else if (reresult["error"] == "2") {
+                    alert("로그인후 이용해주세요.")
+                    location.reload(true);
+                } else {
+                    //btn-secondary
+                    alert(reresult["result"] + "\r\n" + reresult["detail"]);
+                }
+
+            }, "json");
+        }
+
+        function changecolor(ele) {
+            var reqstr = "";
+            if ($("#" + ele).hasClass("bg-success")) {
+                $("#" + ele).removeClass("bg-success text-white");
+                reqstr = "0";
+            } else {
+                $("#" + ele).addClass("bg-success text-white");
+                reqstr = "1";
+            }
+            return reqstr
+        }
+
+        function limitnum(ele) {
+            var maxval = parseInt($(ele).attr("max-value"));
+            var minval = parseInt($(ele).attr("min-value"));
+            if ($(ele).val() >= maxval) {
+                $(ele).val(maxval);
+            } else if ($(ele).val() <= minval) {
+                $(ele).val(minval);
+            } else if ($(ele).val() == "") {
+                $(ele).val(minval);
+            }
+        }
+        $(function() {
+
+            var includes = $('[data-include]');
+            jQuery.each(includes, function() {
+                var file = '_inc/' + $(this).data('include') + '.html';
+                $(this).load(file);
+            });
+            setTimeout(() => {
+                var removeactive = $(".nav-item.active");
+                removeactive.removeClass("active");
+                var setnavactive = $("div>ul>li.nav-item:eq(1)")
+                console.log(setnavactive);
+                setnavactive.addClass("active");
+
+                var _randomworkstatus = "{{.randomworkstatus}}";
+                var _delaystatus = "{{.delaystatus}}";
+                var _autodelaystatus = "{{.autodelaystatus}}";
+                var _onlyauto = "{{.onlyauto}}";
+                var _x2 = "{{.x2}}";
+
+
+                $("#lockstr").text("{{.lock}}");
+                $("#xaddpixel").val("{{.x}}");
+                $("#yaddpixel").val("{{.y}}");
+                $("#maxrange").val("{{.maxrec}}");
+                $("#randomstateval").val("{{.randomwork}}");
+                $("#delaystateval").val("{{.delay}}");
+                $("#autoshotcount").val("{{.autofirecount}}");
+                $("#autoshotdelayval").val("{{.autodelay}}");
+
+                if (_randomworkstatus == "1") {
+                    $("#randomstate").prop("checked", true);
+                    changecolor("randomstatestr");
+                    $("#randomstate").val("on");
+                }
+                if (_delaystatus == "1") {
+                    $("#delaystate").prop("checked", true);
+                    changecolor("delaystatestr");
+                    $("#delaystate").val("on");
+                }
+                if (_autodelaystatus == "1") {
+                    $("#autoshotdelay").prop("checked", true);
+                    changecolor("autoshotdelaystr");
+                    $("#autoshotdelay").val("on");
+                }
+                if (_onlyauto == "1") {
+                    $("#autoshotonly").prop("checked", true);
+                    changecolor("autoshotonlystr");
+                    $("#autoshotonly").val("on");
+                }
+                if (_x2 == "1") {
+                    $("#x2speed").prop("checked", true);
+                    changecolor("x2speedstr");
+                    $("#x2speed").val("on");
+                }
+
+                $("#xaddpixel").change(function() {
+                    var maxval = parseInt($(this).attr("max-value"));
+                    var minval = parseInt($(this).attr("min-value"));
+                    if ($(this).val() >= maxval) {
+                        $(this).val(maxval);
+                    } else if ($(this).val() <= minval) {
+                        $(this).val(minval);
+
+                    } else if ($(this).val() == "") {
+                        $(this).val(minval);
+                    }
+                    req("/defalut", {
+                        "x": $(this).val()
+                    })
+                })
+
+                $("#yaddpixel").change(function() {
+                    limitnum(this);
+                    req("/defalut", {
+                        "y": $(this).val()
+                    })
+                })
+                $("#maxrange").change(function() {
+                    limitnum(this);
+                    req("/defalut", {
+                        "maxrec": $(this).val()
+                    })
+                })
+
+                $("#randomstate").change(function() {
+
+                    var reqstr = "";
+                    reqstr = changecolor("randomstatestr");
+
+                    req("/defalut", {
+                        "randomworkstatus": reqstr
+                    })
+                })
+                $("#randomstateval").change(function() {
+                    limitnum(this);
+                    req("/defalut", {
+                        "randomwork": $(this).val()
+                    })
+                })
+
+                $("#delaystate").change(function() {
+                    var reqstr = "";
+                    reqstr = changecolor("delaystatestr");
+                    req("/defalut", {
+                        "delaystatus": reqstr
+                    })
+                })
+                $("#delaystateval").change(function() {
+                    limitnum(this);
+                    req("/defalut", {
+                        "delay": $(this).val()
+                    })
+                })
+                $("#autoshotcount").change(function() {
+                    limitnum(this);
+                    req("/defalut", {
+                        "autofirecount": $(this).val()
+                    })
+                })
+                $("#autoshotdelay").change(function() {
+                    var reqstr = "";
+                    reqstr = changecolor("autoshotdelaystr");
+                    req("/defalut", {
+                        "autodelaystatus": reqstr
+                    })
+                })
+                $("#autoshotdelayval").change(function() {
+                    limitnum(this);
+                    req("/defalut", {
+                        "autodelay": $(this).val()
+                    })
+                })
+                $("#autoshotonly").change(function() {
+                    var reqstr = "";
+                    reqstr = changecolor("autoshotonlystr");
+                    req("/defalut", {
+                        "onlyauto": reqstr
+                    })
+                })
+                $("#x2speed").change(function() {
+                    var reqstr = "";
+                    reqstr = changecolor("x2speedstr");
+                    req("/defalut", {
+                        "x2": reqstr
+                    })
+                })
+                $("#ghost").change(function() {
+                    console.log("Click");
+                    var reqstr = "";
+                    reqstr = changecolor("ghoststr");
+                    req("/defalut", {
+                        "ghost": reqstr
+                    })
+                })
+
+                $("#locktrig*").click(function() {
+                    $("#lockstr").text($(this).text());
+                    req("/defalut", {
+                        "lock": $(this).text()
+                    })
+                });
+
+
+            }, 50);
+
+            // var maxval = parseInt($(this).attr("max-value"));
+            // var minval = parseInt($(this).attr("min-value"));
+            // if ($(this).val() >= maxval) {
+            //     $(this).val(maxval);
+
+            //     return;
+            // } else if ($(this).val() <= minval) {
+            //     $(this).val(minval);
+            //     return;
+            // }
+        });
+    </script>
+
+</body>
+
+</html>

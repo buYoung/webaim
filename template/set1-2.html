@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Liv Make Web Application</title>
+
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" data-include="nav">
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid" data-include="rected">
+
+                    <!-- Page Heading -->
+
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        var checkactivety = true;
+
+        function req(url, data) {
+            $.post(url, data, function(data) {
+
+                var reresult = JSON.parse(data.replace("\\", ""));
+                if (reresult["error"] == "1") {
+                    alert(reresult["detail"]); //error hotkey set
+                } else if (reresult["error"] == "2") {
+                    alert("로그인후 이용해주세요.")
+                    location.reload(true);
+                } else {
+                    //btn-secondary
+                    alert(reresult["result"] + " " + reresult["detail"]);
+                }
+
+            }, "json");
+        }
+
+        $(function() {
+            var includes = $('[data-include]');
+            jQuery.each(includes, function() {
+                var file = '_inc/' + $(this).data('include') + '.html';
+                $(this).load(file);
+            });
+
+            setTimeout(() => {
+                var removeactive = $(".nav-item.active");
+                removeactive.removeClass("active");
+                var setnavactive = $("div>ul>li.nav-item:eq(1)")
+                console.log(setnavactive);
+                setnavactive.addClass("active");
+                $("#width").change(function() {
+                    $("#rectsize").css("width", $(this).val());
+                })
+                $("#height").change(function() {
+                    $("#rectsize").css("height", $(this).val());
+                })
+                var width = "{{.width}}";
+                var height = "{{.height}}";
+                var look = "{{.look}}";
+                $("#width").val(width);
+                $("#height").val(height);
+                if (look == "1") {
+                    $("#activebutton1").removeClass("btn-secondary");
+                    $("#rectsize").css("display", "block");
+                    $("#activebutton1").text("활성화중");
+                    $("#activebutton1").addClass("btn-primary");
+                }
+                $("#height").val(height);
+
+            }, 300);
+            setTimeout(() => {
+                $("#activebutton1").click(function() {
+                    var getstate = $(this).text();
+                    console.log(getstate);
+                    if (getstate == "비활성화중") {
+                        $(this).removeClass("btn-secondary");
+                        $("#rectsize").css("display", "block");
+                        $(this).text("활성화중");
+                        $(this).addClass("btn-primary");
+                        req("/rect", {
+                            "look": 1
+                        });
+                    }
+                    if (getstate == "활성화중") {
+                        $(this).removeClass("btn-primary");
+                        $("#rectsize").css("display", "none");
+                        $(this).text("비활성화중");
+                        $(this).addClass("btn-secondary");
+                        req("/rect", {
+                            "look": 0
+                        });
+                    }
+                });
+                $("#width").keypress((e) => {
+                    if (e.key == "Enter") {
+                        req("/rect", {
+                            "width": $("#width").val()
+                        });
+                    }
+                });
+                $("#height").keypress((e) => {
+                    if (e.key == "Enter") {
+                        req("/rect", {
+                            "height": $("#height").val()
+                        });
+                    }
+                });
+            }, 300);
+        });
+    </script>
+
+</body>
+
+</html>

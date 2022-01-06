@@ -1,0 +1,87 @@
+<!-- Sidebar - Brand -->
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <div class="sidebar-brand-icon rotate-n-15">
+        <i class="fas fa-laugh-wink"></i>
+    </div>
+    <div class="sidebar-brand-text mx-3">Settings <sup>1</sup></div>
+</a>
+
+<!-- Divider -->
+<hr class="sidebar-divider my-0">
+
+<!-- Nav Item - Dashboard -->
+<li class="nav-item">
+    <a class="nav-link" href="index.html">
+        <i class="fas fa-fw fa-tachometer-alt"></i>
+        <span>메인화면</span></a>
+</li>
+
+<!-- Divider -->
+<hr class="sidebar-divider">
+
+<!-- Heading -->
+<div class="sidebar-heading">
+    설정
+</div>
+
+<!-- Nav Item - Pages Collapse Menu -->
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>기본설정</span>
+    </a>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">기본 설정:</h6>
+            <a class="collapse-item" href="set1-1.html">단축키</a>
+            <a class="collapse-item" href="set1-2.html">인식범위</a>
+            <a class="collapse-item" href="set1-3.html">기본설정</a>
+        </div>
+    </div>
+</li>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>고급설정</span>
+    </a>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">고급 설정:</h6>
+            <a class="collapse-item" href="set2-1.html">인식색상</a>
+            <a class="collapse-item" href="set2-2.html">가속도</a>
+            <a class="collapse-item" href="set2-3.html">고급설정</a>
+        </div>
+    </div>
+</li>
+<li class="nav-item">
+    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTri" aria-expanded="true" aria-controls="collapseTri">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>스킨</span>
+    </a>
+    <div id="collapseTri" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">스킨:</h6>
+            <a class="collapse-item" href="set3-1.html">스킨다운로더</a>
+            <a class="collapse-item" href="set3-2.html">스킨적용</a>
+        </div>
+    </div>
+</li>
+<!-- Divider -->
+<hr class="sidebar-divider d-none d-md-block">
+
+<!-- Sidebar Toggler (Sidebar) -->
+<div class="text-center d-none d-md-inline">
+    <button class="rounded-circle border-0" id="sidebarToggle"></button>
+</div>
+
+<script>
+    setTimeout(() => {
+        $("#sidebarToggle").click(function() {
+            if ($("#accordionSidebar").hasClass("toggled")) {
+                $("#accordionSidebar").removeClass("toggled")
+            } else {
+                $("#accordionSidebar").addClass("toggled")
+            }
+        });
+    }, 50);
+</script>

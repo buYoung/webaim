@@ -1,0 +1,44 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+    <h1 class="h3 mb-0 text-gray-800">스킨다운로더</h1>
+</div>
+<div class="card o-hidden border-0 shadow-lg my-1 w-100 h-100">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+
+        <div class="p-5">
+
+            <p class="card-text mb-0 text-gray-800">다운로드 진행상황</p>
+            <div class="progress mb-3" style="height: 40px;">
+                <div class="progress-bar" id="downloadprogg" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <p class="card-text mb-0 text-gray-800">압축해제 진행상황</p>
+            <div class="progress mb-3 " style="height: 40px;">
+                <div class="progress-bar bg-info" id="decompressprogg" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <button id="downloadbutton" type="button" value="0" class="btn btn-secondary">다운로드시작</button>
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text">왼쪽 버튼 클릭시 다운로드 시작</span>
+                </div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-text">
+                    <input type="checkbox" id="decompress">
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text" id="decompressstr">다운로드후 자동압축해제</span>
+                </div>
+                <div class="input-group-append">
+                    <select name="selectcamera" id="selcam" class="btn btn-secondary dropdown-toggle">
+                        <option value="0">몸전체형광</option>
+                        <option value="90">몸통머리형광</option>
+                    </select>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>

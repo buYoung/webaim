@@ -1,0 +1,835 @@
+<script id="scripsze">
+    if ("{{.login}}" != "1") {
+        alert("로그인후 사용가능");
+        location.href = "/";
+    }
+    document.getElementById("scripsze").remove();
+</script>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Liv Make Web Application</title>
+
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" data-include="nav">
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid" data-include="colors">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">인식범위</h1>
+                    </div>
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+
+    <div class="modal fade" id="coloreditmodal" tabindex="-1" role="dialog" aria-labelledby="coloreditmodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="coloreditmodalTitle">색 수정</h5>
+                    <button id="hithere" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    수정할 인식 원하는색을 적어주세요 : <input type="text" class="form-control" id="editcolordecimal">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="editclosemodal1" type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button id="editsavemodal1" type="button" class="btn btn-primary" data-dismiss="modal">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="coloraddmodal" tabindex="-1" role="dialog" aria-labelledby="coloraddmodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="coloraddmodalTitle">색 추가</h5>
+                    <button id="hithere" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    추가할 인식 원하는색을 적어주세요 : <input type="text" class="form-control" id="addcolordecimal">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="addclosemodal1" type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                    <button id="addsavemodal1" type="button" class="btn btn-primary" data-dismiss="modal">저장</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="colordeletemodal" tabindex="-1" role="dialog" aria-labelledby="colordeletemodalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="colordeletemodalTitle">색 제거</h5>
+                    <button id="hithere" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-footer">
+                    <button id="delsavemodal1" type="button" class="btn btn-primary" data-dismiss="modal">삭제</button>
+                    <button id="delclosemodal1" type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        var checkactivety = true;
+        var reds = new Array();
+        var blues = new Array();
+        var redh = new Array();
+        var blueh = new Array();
+        var colors = "{{.colors}}";
+
+        if (colors.indexOf("red") != -1) {
+
+            var colorjson = JSON.parse(colors);
+            colorjson["red_team_body"].some(function(i, a) {
+                reds.push(i);
+            })
+            colorjson["red_team_head"].some(function(i, a) {
+                redh.push(i);
+            })
+            colorjson["blue_team_body"].some(function(i, a) {
+                blues.push(i);
+            })
+            colorjson["blue_team_head"].some(function(i, a) {
+                blueh.push(i);
+            })
+        }
+
+
+        function requsetcolorstate() {
+
+            var data = {
+                "color": JSON.stringify(reds) + "|" + JSON.stringify(redh) + "|" + JSON.stringify(blues) + "|" + JSON.stringify(blueh)
+            }
+            $.post("/color", data, function(data) {
+
+                var reresult = JSON.parse(data.replace("\\", ""));
+                if (reresult["error"] == "1") {
+                    alert(reresult["detail"]); //error hotkey set
+                } else if (reresult["error"] == "2") {
+                    alert("로그인후 이용해주세요.")
+                    location.reload(true);
+                } else {
+                    //btn-secondary
+                    alert(reresult["result"] + "\r\n" + reresult["detail"]);
+                }
+
+            }, "json");
+        }
+
+        function seteditcolorevent() {
+            $("#redsel .list-group1 #redcolors div a #editcolor").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloreditmodal').modal('show');
+                    $("#editclosemodal1").click(function() {
+                        $("#editcolordecimal").val("");
+                    });
+                    $("#editsavemodal1").click(function() {
+                        var splitdatas = $("#editcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else {
+
+                            alert($("#editcolordecimal").val() + "로 저장되었습니다..");
+                            reds[clickindex] = $("#editcolordecimal").val();
+
+                            $("#redcolors[index='" + clickindex + "']").contents()[0].textContent = $("#editcolordecimal").val();
+                            $("#redsel .list-group1 #redcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            });
+                            $("#redcount").text(reds.length);
+                            $("#editsavemodal1").off();
+                            return;
+                        }
+                        requsetcolorstate();
+                    });
+                }
+            });
+            $("#redhsel .list-group1 #redhcolors div a #editcolor").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloreditmodal').modal('show');
+                    $("#editclosemodal1").click(function() {
+                        $("#editcolordecimal").val("");
+                    });
+                    $("#editsavemodal1").click(function() {
+                        var splitdatas = $("#editcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else {
+                            alert($("#editcolordecimal").val() + "로 저장되었습니다..");
+                            redh[clickindex] = $("#editcolordecimal").val();
+
+                            $("#redhcolors[index='" + clickindex + "']").contents()[0].textContent = $("#editcolordecimal").val();
+                            $("#redhsel .list-group1 #redhcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#redhcount").text(redh.length);
+                            $("#editsavemodal1").off();
+                        }
+                        requsetcolorstate();
+                    });
+                }
+            });
+            $("#bluesel .list-group1 #bluecolors div a #editcolor").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloreditmodal').modal('show');
+                    $("#editclosemodal1").click(function() {
+                        $("#editcolordecimal").val("");
+                    });
+                    $("#editsavemodal1").click(function() {
+                        var splitdatas = $("#editcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else {
+                            alert($("#editcolordecimal").val() + "로 저장되었습니다..");
+                            blues[clickindex] = $("#editcolordecimal").val();
+
+                            $("#bluecolors[index='" + clickindex + "']").contents()[0].textContent = $("#editcolordecimal").val();
+                            $("#bluesel .list-group1 #bluecolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#bluecount").text(blues.length);
+                            $("#editsavemodal1").off();
+                        }
+                        requsetcolorstate();
+                    });
+                }
+            });
+            $("#bluehsel .list-group1 #bluehcolors div a #editcolor").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloreditmodal').modal('show');
+                    $("#editclosemodal1").click(function() {
+                        $("#editcolordecimal").val("");
+                    });
+                    $("#editsavemodal1").click(function() {
+                        var splitdatas = $("#editcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#editsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#editsavemodal1").off();
+                            return;
+                        } else {
+                            alert($("#editcolordecimal").val() + "로 저장되었습니다..");
+                            blueh[clickindex] = $("#editcolordecimal").val();
+
+                            $("#bluehcolors[index='" + clickindex + "']").contents()[0].textContent = $("#editcolordecimal").val();
+                            $("#bluehsel .list-group1 #bluehcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#bluehcount").text(blueh.length);
+                            $("#editsavemodal1").off();
+                        }
+                        requsetcolorstate();
+                    });
+                }
+            });
+        }
+
+        function setdeletecolroevent() {
+            $("#redsel .list-group1 #redcolors div a #deletecolro").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    var ae = $(this);
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    $('#colordeletemodal').modal('show');
+
+                    $("#delsavemodal1").click(function() {
+                        ae.parent().parent().parent().remove();
+                        reds.splice(clickindex, 1);
+                        $("#delsavemodal1").off();
+                        $("#redcount").text(reds.length);
+                        $("#solocount").text(reds.length + redh.length + blues.length + blueh.length);
+                        alert(ae.parent().parent().parent().text() + "가 제거되었습니다.");
+                        requsetcolorstate();
+                        return;
+
+                    });
+                }
+            });
+            $("#redhsel .list-group1 #redhcolors div a #deletecolro").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    var ae = $(this);
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    $('#colordeletemodal').modal('show');
+
+                    $("#delsavemodal1").click(function() {
+                        ae.parent().parent().parent().remove();
+                        redh.splice(clickindex, 1);
+                        $("#delsavemodal1").off();
+                        $("#redhcount").text(redh.length);
+                        $("#solocount").text(reds.length + redh.length + blues.length + blueh.length);
+                        alert(ae.parent().parent().parent().text() + "가 제거되었습니다.");
+                        requsetcolorstate();
+                        return;
+                    });
+                }
+            });
+            $("#bluesel .list-group1 #bluecolors div a #deletecolro").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    var ae = $(this);
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    $('#colordeletemodal').modal('show');
+
+                    $("#delsavemodal1").click(function() {
+                        ae.parent().parent().parent().remove();
+                        blues.splice(clickindex, 1);
+                        $("#delsavemodal1").off();
+                        $("#bluecount").text(blues.length);
+                        $("#solocount").text(reds.length + redh.length + blues.length + blueh.length);
+                        alert(ae.parent().parent().parent().text() + "가 제거되었습니다.");
+                        requsetcolorstate();
+                        return;
+                    });
+                }
+            });
+            $("#bluehsel .list-group1 #bluehcolors div a #deletecolro").on({
+                click: function(a) {
+                    var clickindex = 0;
+                    var ae = $(this);
+                    clickindex = $(this).parent().parent().parent().attr("index");
+                    $('#colordeletemodal').modal('show');
+
+                    $("#delsavemodal1").click(function() {
+                        ae.parent().parent().parent().remove();
+                        blueh.splice(clickindex, 1);
+                        $("#delsavemodal1").off();
+                        $("#bluehcount").text(blueh.length);
+                        $("#solocount").text(reds.length + redh.length + blues.length + blueh.length);
+                        alert(ae.parent().parent().parent().text() + "가 제거되었습니다.");
+                        requsetcolorstate();
+                        return;
+                    });
+
+                }
+            });
+        }
+
+        function setaddcolorevent() {
+            $("#redsel .list-group1 #redcolors div a #addcolor").on({
+                click: function(a) {
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloraddmodal').modal('show');
+                    $("#addsavemodal1").click(function() {
+                        var splitdatas = $("#addcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else {
+                            reds.push($("#addcolordecimal").val());
+                            var subcolor = $('<li id="redcolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + (reds.length - 1) + '">' + reds[(reds.length - 1)] + '</li>');
+                            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+                            redcol.append(subcolor);
+
+                            $("#redsel .list-group1 #redcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#addsavemodal1").off();
+                            $("#editsavemodal1").off();
+                            $("#delsavemodal1").off();
+                            $("#redsel .list-group1 #redcolors div a #editcolor").off();
+                            $("#redsel .list-group1 #redcolors div a #addcolor").off();
+
+
+                            setdeletecolroevent();
+                            seteditcolorevent();
+                            setaddcolorevent();
+                            $("#redcount").text(reds.length);
+                            requsetcolorstate();
+                            alert($("#addcolordecimal").val() + "가 추가되었습니다.");
+
+                            return;
+                        }
+
+
+                    });
+                }
+            });
+            $("#redhsel .list-group1 #redhcolors div a #addcolor").on({
+                click: function(a) {
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloraddmodal').modal('show');
+                    $("#addsavemodal1").click(function() {
+                        var splitdatas = $("#addcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else {
+                            redh.push($("#addcolordecimal").val());
+                            var subcolor = $('<li id="redhcolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + (redh.length - 1) + '">' + red_team_head[(redh.length - 1)] + '</li>');
+                            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+                            redhcol.append(subcolor);
+
+                            $("#redhsel .list-group1 #redhcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#addsavemodal1").off();
+                            $("#editsavemodal1").off();
+                            $("#delsavemodal1").off();
+                            $("#redhsel .list-group1 #redhcolors div a #editcolor").off();
+                            $("#redhsel .list-group1 #redhcolors div a #addcolor").off();
+
+                            $("#redcount").text(redh.length);
+                            setdeletecolroevent();
+                            seteditcolorevent();
+                            setaddcolorevent();
+
+                            requsetcolorstate();
+                            alert($("#addcolordecimal").val() + "가 추가되었습니다.");
+                            return;
+                        }
+                    });
+                }
+            });
+            $("#bluesel .list-group1 #bluecolors div a #addcolor").on({
+                click: function(a) {
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloraddmodal').modal('show');
+                    $("#addsavemodal1").click(function() {
+                        var splitdatas = $("#addcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else {
+                            blues.push($("#addcolordecimal").val());
+                            var subcolor = $('<li id="bluecolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + (blues.length - 1) + '">' + blues[(blues.length - 1)] + '</li>');
+                            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+                            bluecol.append(subcolor);
+
+                            $("#bluesel .list-group1 #bluecolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#addsavemodal1").off();
+                            $("#editsavemodal1").off();
+                            $("#delsavemodal1").off();
+                            $("#bluesel .list-group1 #bluecolors div a #editcolor").off();
+                            $("#bluesel .list-group1 #bluecolors div a #addcolor").off();
+
+                            $("#bluecount").text(blues.length);
+                            setdeletecolroevent();
+                            seteditcolorevent();
+                            setaddcolorevent();
+                            requsetcolorstate();
+                            alert($("#addcolordecimal").val() + "가 추가되었습니다.");
+                            return;
+                        }
+                    });
+                }
+            });
+            $("#bluehsel .list-group1 #bluehcolors div a #addcolor").on({
+                click: function(a) {
+                    //console.log("test", $(this).parent().parent().parent());
+                    $('#coloraddmodal').modal('show');
+                    $("#addsavemodal1").click(function() {
+                        var splitdatas = $("#addcolordecimal").val().split(",");
+
+                        if (splitdatas.length != 3) {
+                            alert("색상 형식이 다릅니다 R,G,B 형태에맞춰서 저장해주세요.");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[0]) < 0 || parseInt(splitdatas[0]) > 255) {
+                            alert("레드 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[1]) < 0 || parseInt(splitdatas[1]) > 255) {
+                            alert("그린 색상이 범위에 벗어났습니다 0~255 " + splitdatas[1]);
+                            $("#addsavemodal1").off();
+                            return;
+                        } else if (parseInt(splitdatas[2]) < 0 || parseInt(splitdatas[2]) > 255) {
+                            alert("블루 색상이 범위에 벗어났습니다 0~255");
+                            $("#addsavemodal1").off();
+                            return;
+                        } else {
+                            blueh.push($("#addcolordecimal").val());
+                            var subcolor = $('<li id="bluehcolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + (blueh.length - 1) + '">' + blueh[(blueh.length - 1)] + '</li>');
+                            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+                            bluecol.append(subcolor);
+
+                            $("#bluehsel .list-group1 #bluehcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            $("#addsavemodal1").off();
+                            $("#editsavemodal1").off();
+                            $("#delsavemodal1").off();
+                            $("#bluehsel .list-group1 #bluehcolors div a #editcolor").off();
+                            $("#bluehsel .list-group1 #bluehcolors div a #addcolor").off();
+
+                            $("#bluehcount").text(blueh.length);
+                            setdeletecolroevent();
+                            seteditcolorevent();
+                            setaddcolorevent();
+                            requsetcolorstate();
+                            alert($("#addcolordecimal").val() + "가 추가되었습니다.");
+                            return;
+                        }
+                    });
+                }
+            });
+        }
+
+        var redcol = $('<div class="list-group1">')
+        var bluecol = $('<div class="list-group1">')
+        var redhcol = $('<div class="list-group1">')
+        var bluehcol = $('<div class="list-group1">')
+        var solocol = $('<div class="list-group1">')
+        var addtag = $('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>');
+        reds.some(function(a, i) {
+            var subcolor = $('<li id="redcolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            var solocolor = $('<li id="solocolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+
+            solocol.append(solocolor);
+            redcol.append(subcolor);
+        });
+        redh.some(function(a, i) {
+            var subcolor = $('<li id="redhcolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            var solocolor = $('<li id="solocolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+
+            solocol.append(solocolor);
+            redhcol.append(subcolor);
+        });
+        blues.some(function(a, i) {
+            var subcolor = $('<li id="bluecolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            var solocolor = $('<li id="solocolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+            solocol.append(solocolor);
+            bluecol.append(subcolor);
+        });
+
+        blueh.some(function(a, i) {
+            var subcolor = $('<li id="bluehcolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            var solocolor = $('<li id="solocolors" class="list-group-item d-flex justify-content-between align-items-center" index="' + i + '">' + a + '</li>');
+            subcolor.append($('<div style="float: right"><a href="#"><img id="addcolor" src="icons/plus.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="deletecolro" src="icons/x.svg" alt="" width="32" height="32" title="plus"></a><a href="#"><img id="editcolor" src="icons/Pencil.svg" alt="" width="32" height="32" title="plus"></a></div>'));
+
+            solocol.append(solocolor);
+            bluehcol.append(subcolor);
+        });
+
+        var checkred = 0;
+        $(function() {
+            var includes = $('[data-include]');
+            jQuery.each(includes, function() {
+                var file = '_inc/' + $(this).data('include') + '.html';
+                $(this).load(file);
+            });
+            setTimeout(() => {
+                var removeactive = $(".nav-item.active");
+                removeactive.removeClass("active");
+                var setnavactive = $("div>ul>li.nav-item:eq(2)")
+                console.log(setnavactive);
+                setnavactive.addClass("active");
+                $("#redsel").click(function(a) {
+                    if (a.target.id == "redsel") {
+                        if (checkred == 0) {
+                            $("#redsel").append(redcol);
+                            $("#redsel .list-group1 #redcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            setdeletecolroevent();
+                            setaddcolorevent();
+                            seteditcolorevent();
+                            checkred = 1;
+                        } else {
+                            $("#redsel .list-group1").remove();
+                            checkred = 0;
+                        }
+                    }
+                });
+                $("#redhsel").click(function(a) {
+                    if (a.target.id == "redhsel") {
+                        if (checkred == 0) {
+                            $("#redhsel").append(redhcol);
+                            $("#redhsel .list-group1 #redhcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            setdeletecolroevent();
+                            setaddcolorevent();
+                            seteditcolorevent();
+                            checkred = 1;
+                        } else {
+                            $("#redhsel .list-group1").remove();
+                            checkred = 0;
+                        }
+                    }
+                });
+                $("#bluesel").click(function(a) {
+                    if (a.target.id == "bluesel") {
+                        if (checkred == 0) {
+                            $("#bluesel").append(bluecol);
+                            $("#bluesel .list-group1 #bluecolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            setdeletecolroevent();
+                            setaddcolorevent();
+                            seteditcolorevent();
+                            checkred = 1;
+                        } else {
+                            $("#bluesel .list-group1").remove();
+                            checkred = 0;
+                        }
+                    }
+                });
+                $("#bluehsel").click(function(a) {
+                    if (a.target.id == "bluehsel") {
+                        if (checkred == 0) {
+                            $("#bluehsel").append(bluehcol);
+                            $("#bluehsel .list-group1 #bluehcolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            })
+                            setdeletecolroevent();
+                            setaddcolorevent();
+                            seteditcolorevent();
+                            checkred = 1;
+                        } else {
+                            $("#bluehsel .list-group1").remove();
+                            checkred = 0;
+                        }
+                    }
+                });
+                $("#solosel").click(function(a) {
+                    if (a.target.id == "solosel") {
+                        if (checkred == 0) {
+                            $("#solosel").append(solocol);
+                            $("#solosel .list-group1 #solocolors").each(function(i, a) {
+                                $(this).css("background-color", "rgb(" + $(this).text() + ")");
+                                $(this).css("border", "1px solid #6e707e");
+                                $(this).css("color", "#111");
+                            });
+                            setdeletecolroevent();
+                            setaddcolorevent();
+                            seteditcolorevent();
+                            checkred = 1;
+                        } else {
+                            $("#solosel .list-group1").remove();
+                            checkred = 0;
+                        }
+                    }
+                });
+
+                $("#redcount").text(reds.length);
+                $("#redhcount").text(redh.length);
+                $("#bluecount").text(blues.length);
+                $("#bluehcount").text(blueh.length);
+                $("#solocount").text(reds.length + redh.length + blues.length + blueh.length);
+            }, 50);
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4 mt-3">
+    <h1 class="h3 mb-0 text-gray-800">기본설정</h1>
+</div>
+<div class="card o-hidden border-0 shadow-lg my-1 w-100 h-100">
+    <div class="card-body p-0">
+        <!-- Nested Row within Card Body -->
+
+        <div class="p-5">
+
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">x축 위치 </span>
+                </div>
+                <input id="xaddpixel" max-value="20" min-value="-20" type="text" class="form-control" value="0">
+                <div class="input-group-append">
+                    <span class="input-group-text">-20~20 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">y축 위치 </span>
+                </div>
+                <input id="yaddpixel" max-value="20" min-value="-20" type="text" class="form-control" value="0">
+                <div class="input-group-append">
+                    <span class="input-group-text">-20~20 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <p class="card-text">위의 기능은 감지된 색으로부터 + 혹은 - 의 위치로 추가적으로 이동합니다.(보통 창모드일경우 사용)</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-default">최대인식거리 </span>
+                </div>
+                <input id="maxrange" max-value="100" min-value="1" type="text" class="form-control" value="25">
+                <div class="input-group-append">
+                    <span class="input-group-text">1~100 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <p class="card-text">위의 기능은 감지된 색이 마우스와 지정한 값보다 거리가 멀경우 지정한값으로 바꿉니다.</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="randomstate">
+                    </div>
+                    <span class="input-group-text" id="randomstatestr">랜덤작동</span>
+                </div>
+                <input type="text" id="randomstateval" max-value="100" min-value="0" class="form-control" value="0">
+                <div class="input-group-append">
+                    <span class="input-group-text">0~100 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <p class="card-text">위의 기능은 색상을 찾은후 작동할때 확률적으로 작동합니다.</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="delaystate">
+                    </div>
+                    <span class="input-group-text" id="delaystatestr">딜레이</span>
+                </div>
+                <input type="text" id="delaystateval" max-value="10000" min-value="0" class="form-control" value="1">
+                <div class="input-group-append">
+                    <span class="input-group-text">0~10000 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="autoshot">
+                    </div>
+                    <span class="input-group-text" id="autoshotstr">오토샷 발사횟수</span>
+                </div>
+                <input type="text" id="autoshotcount" max-value="10" min-value="0" class="form-control" value="1">
+                <div class="input-group-append">
+                    <span class="input-group-text">0~10 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="autoshotdelay">
+                    </div>
+                    <span class="input-group-text" id="autoshotdelaystr">오토샷 딜레이</span>
+                </div>
+                <input type="text" id="autoshotdelayval" max-value="100" min-value="0" class="form-control" value="1">
+                <div class="input-group-append">
+                    <span class="input-group-text">0~100 사이의 값을 입력해주세요</span>
+                </div>
+            </div>
+            <p class="card-text">위의 기능은 지정된 값만큼 색상찾은후 멈춥니다 (1초 = 1000 // 0.001초 = 1)</p>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="autoshotonly">
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="autoshotonlystr">오토샷만 사용하기</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="input-group mb-3 w-100">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <input type="checkbox" id="x2speed">
+                    </div>
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="x2speedstr">2배속 작동</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

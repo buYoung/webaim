@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Liv Make Web Application</title>
+
+    <link href="css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" data-include="nav">
+
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Begin Page Content -->
+                <div class="container-fluid" data-include="accel">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">인식범위</h1>
+                    </div>
+
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2019</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+        <i class="fa fa-bars"></i>
+      </button>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="/js/sb-admin-2.min.js"></script>
+    <script>
+        var checkactivety = true;
+
+        function calcs(data) {
+            var calc = data / 1000;
+            calc = calc.toFixed(3);
+            return calc;
+        }
+
+        function editable(content, e, element, data) {
+            if (Number.isNaN(parseInt(e.key)) && e.key != "." && e.key != "ArrowUp" && e.key != "ArrowDown" && e.key != "Enter" && e.key != "Backspace") {
+                e.preventDefault();
+                return false;
+            } else if (e.key == "Enter") {
+                if (parseFloat($(content).text()) >= 2.001) {
+                    $(content).text(2).toFixed(3);
+                    var cacled = parseFloat($(content).text()) * 1000;
+                    $(element).val(cacled);
+                }
+                if (parseFloat($(content).text()) <= -0.001) {
+                    $(content).text(0).toFixed(3);
+                    var cacled = parseFloat($(content).text()) * 1000;
+                    $(element).val(cacled);
+                }
+                $(content).text(parseFloat($(content).text()).toFixed(3));
+                var cacled = parseFloat($(content).text()) * 1000;
+                $(element).val(cacled);
+                req(data);
+            } else if (e.key == "ArrowUp") {
+                if (parseFloat($(content).text()) <= -0.001) {
+                    $(content).text(0).toFixed(3);
+                    var cacled = parseFloat($(content).text()) * 1000;
+                    $(element).val(cacled);
+                }
+                if (parseFloat($(content).text()) <= 1.999) {
+                    $(content).text((parseFloat($(content).text()) + 0.001).toFixed(3));
+                    var cacled = parseFloat($(content).text()) * 1000;
+                    $(element).val(cacled);
+                }
+            } else if (e.key == "ArrowDown") {
+                if (parseFloat($(content).text()) >= 2.001) {
+                    $(content).text(2).toFixed(3);
+                    var cacled = parseFloat($(content).text()) * 1000;
+                    $(element).val(cacled);
+                }
+                if (parseFloat($(content).text()) >= 0.001) {
+                    $(content).text((parseFloat($(content).text()) - 0.001).toFixed(3));
+                    var cacled = parseFloat($(content).text()) * 1000;
+                    $(element).val(cacled);
+                }
+            }
+        }
+
+        function req(data) {
+            $.post("/accel", data, function(data) {
+
+                var reresult = JSON.parse(data.replace("\\", ""));
+                if (reresult["error"] == "1") {
+                    alert(reresult["detail"]); //error hotkey set
+                } else if (reresult["error"] == "2") {
+                    alert("로그인후 이용해주세요.")
+                    location.reload(true);
+                } else {
+                    //btn-secondary
+                    alert(reresult["result"] + "\r\n" + reresult["detail"]);
+                }
+
+            }, "json");
+        }
+        $(function() {
+            var includes = $('[data-include]');
+            jQuery.each(includes, function() {
+                var file = '_inc/' + $(this).data('include') + '.html';
+                $(this).load(file);
+            });
+            setTimeout(() => {
+                var removeactive = $(".nav-item.active");
+                removeactive.removeClass("active");
+                var setnavactive = $("div>ul>li.nav-item:eq(2)")
+                console.log(setnavactive);
+                setnavactive.addClass("active");
+                // req("/defalut", {
+                //     "x": $(this).val()
+                // })
+                // shortval  middleval  longval shortrange
+                $("#shortrange").on("input", function(a) {
+                    var calc = calcs($(this).val());
+                    $("#shortval").text(calc);
+
+
+                    // $(this).attr("title", "value : " + $(this).val());
+                    //data-original-title
+                });
+                $("#middlerange").on("input", function(a) {
+                    var calc = calcs($(this).val());
+                    $("#middleval").text(calc);
+                    // $(this).attr("title", "value : " + $(this).val());
+                    //data-original-title
+                });
+                $("#longrange").on("input", function(a) {
+                    var calc = calcs($(this).val());
+                    $("#longval").text(calc);
+                    // $(this).attr("title", "value : " + $(this).val());
+                    //data-original-title
+                });
+                $("#shortrange").change(function() {
+                    var calc = calcs($(this).val());
+                    req({
+                        "short": $(this).val(),
+                        "calc": calc
+                    });
+                });
+                $("#middlerange").change(function() {
+                    var calc = calcs($(this).val());
+                    req({
+                        "middle": $(this).val(),
+                        "calc": calc
+                    });
+                });
+                $("#longrange").change(function() {
+                    var calc = calcs($(this).val());
+                    req({
+                        "long": $(this).val(),
+                        "calc": calc
+                    });
+                });
+                $("#shortval").keydown(function(e) {
+                    console.log($("#shortrange").val());
+                    editable(this, e, "#shortrange", {
+                        "short": parseFloat($(this).text()) * 1000,
+                        "calc": $(this).text()
+                    });
+
+                });
+                $("#middleval").keydown(function(e) {
+                    console.log($("#middlerange").val());
+                    editable(this, e, "#middlerange", {
+                        "middle": parseFloat($(this).text()) * 1000,
+                        "calc": $(this).text()
+                    });
+
+                });
+                $("#longval").keydown(function(e) {
+                    console.log($("#longrange").val());
+                    editable(this, e, "#longrange", {
+                        "long": parseFloat($(this).text()) * 1000,
+                        "calc": $(this).text()
+                    });
+
+                });
+
+
+                var _short = "{{.short}}";
+                var _middle = "{{.middle}}";
+                var _long = "{{.long}}";
+                if (_short == "") {
+                    _short = "0";
+                }
+                if (_middle == "") {
+                    _middle = "0";
+                }
+                if (_long == "") {
+                    _long = "0";
+                }
+                $("#shortval").text(calcs(_short));
+                $("#middleval").text(calcs(_middle));
+                $("#longval").text(calcs(_long));
+
+                $("#shortrange").val(_short);
+                $("#middlerange").val(_middle);
+                $("#longrange").val(_long);
+            }, 300);
+        });
+    </script>
+
+</body>
+
+</html>
