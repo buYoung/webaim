@@ -14,3 +14,12 @@
 ### win + r 눌러서 실행창에 powershell 치고 엔터 압축해제된 폴더의 주소를 복사후 powershell창에 cd 입력후 ctrl + v 후 엔터
 ### go build ./ 입력
 ### ※ 오류가 있을경우 github의 Issue에 적어주시면 답변 드리겠습니다.
+
+
+# virtualBox Vdi 파일
+http://gofile.me/6Vuaa/uri490rNY
+
+혹시라도 안되는 경우를 대비해서 가상머신파일입니다.
+자세한 사항은 위의 파일을 다운받으시고
+구글에 virtualbox vdi 불러오기 검색해보세요
+ 
