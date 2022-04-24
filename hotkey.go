@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/MakeNowJust/hotkey"
+	hotkey_win "github.com/MakeNowJust/hotkey/win"
 	getproc "github.com/buYoung/webaim/proccess"
 	"strconv"
 	"strings"
@@ -177,7 +178,7 @@ func Sethotkey(index, key, keystr string) error {
 				onkey.Unregister(onid)
 				onid = -1
 			}
-			onid, err = onkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			onid, err = onkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Onaim()
 			})
 			getproc.Settings.Hotkeys.On = fmt.Sprintf("%s|%s", key, keystr)
@@ -186,7 +187,7 @@ func Sethotkey(index, key, keystr string) error {
 				offkey.Unregister(offid)
 				offid = -1
 			}
-			offid, err = offkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			offid, err = offkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Offaim()
 			})
 			getproc.Settings.Hotkeys.Off = fmt.Sprintf("%s|%s", key, keystr)
@@ -195,7 +196,7 @@ func Sethotkey(index, key, keystr string) error {
 				redkey.Unregister(redid)
 				redid = -1
 			}
-			redid, err = redkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			redid, err = redkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.RedColors()
 			})
 			getproc.Settings.Hotkeys.Red = fmt.Sprintf("%s|%s", key, keystr)
@@ -204,7 +205,7 @@ func Sethotkey(index, key, keystr string) error {
 				bluekey.Unregister(blueid)
 				blueid = -1
 			}
-			blueid, err = bluekey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			blueid, err = bluekey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.BlueColors()
 			})
 			getproc.Settings.Hotkeys.Blue = fmt.Sprintf("%s|%s", key, keystr)
@@ -213,7 +214,7 @@ func Sethotkey(index, key, keystr string) error {
 				solokey.Unregister(solosid)
 				solosid = -1
 			}
-			solosid, err = solokey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			solosid, err = solokey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.MultipleColors()
 			})
 			getproc.Settings.Hotkeys.Solo = fmt.Sprintf("%s|%s", key, keystr)
@@ -222,7 +223,7 @@ func Sethotkey(index, key, keystr string) error {
 				exitkey.Unregister(exitid)
 				exitid = -1
 			}
-			exitid, err = exitkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			exitid, err = exitkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Exitprogram()
 			})
 			getproc.Settings.Hotkeys.Exit = fmt.Sprintf("%s|%s", key, keystr)
@@ -231,7 +232,7 @@ func Sethotkey(index, key, keystr string) error {
 				auonkey.Unregister(auonid)
 				auonid = -1
 			}
-			auonid, err = auonkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			auonid, err = auonkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Autoon()
 			})
 			getproc.Settings.Hotkeys.Autoon = fmt.Sprintf("%s|%s", key, keystr)
@@ -240,7 +241,7 @@ func Sethotkey(index, key, keystr string) error {
 				auoffkey.Unregister(auoffid)
 				auoffid = -1
 			}
-			auoffid, err = auoffkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			auoffid, err = auoffkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Autooff()
 			})
 			getproc.Settings.Hotkeys.Autooff = fmt.Sprintf("%s|%s", key, keystr)
@@ -250,7 +251,7 @@ func Sethotkey(index, key, keystr string) error {
 				aufirekey.Unregister(aufireid)
 				aufireid = -1
 			}
-			aufireid, err = aufirekey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			aufireid, err = aufirekey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Autofire()
 			})
 			getproc.Settings.Hotkeys.Autofire = fmt.Sprintf("%s|%s", key, keystr)
@@ -259,7 +260,7 @@ func Sethotkey(index, key, keystr string) error {
 				bodykey.Unregister(bodyid)
 				bodyid = -1
 			}
-			bodyid, err = bodykey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			bodyid, err = bodykey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Bodyonly()
 			})
 
@@ -269,7 +270,7 @@ func Sethotkey(index, key, keystr string) error {
 				headkey.Unregister(headid)
 				headid = -1
 			}
-			headid, err = headkey.Register(hotkey.Modifier(hotkey.None), uint32(numkey), func() {
+			headid, err = headkey.Register(hotkey.Modifier(hotkey_win.MOD_NONE), uint32(numkey), func() {
 				getproc.Headonly()
 			})
 
