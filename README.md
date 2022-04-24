@@ -16,7 +16,7 @@
 ### ※ 오류가 있을경우 github의 Issue에 적어주시면 답변 드리겠습니다.
 
 
-# virtualBox Vdi 파일
+# virtualBox Vdi 파일 (2022년 6월 30일 만료)
 http://gofile.me/6Vuaa/uri490rNY
 
 1. 혹시라도 안되는 경우를 대비해서 가상머신파일입니다.
